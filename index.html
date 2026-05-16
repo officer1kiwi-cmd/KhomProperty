@@ -1,243 +1,530 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Khom Property Platform</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  
-  <style>
-    body { font-family: 'Kanit', sans-serif; }
-    .neon-blue { color: #00f3ff; text-shadow: 0 0 15px rgba(0, 243, 255, 0.6); }
-    .hero-glow { background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%); animation: heroFloat 6s ease-in-out infinite; }
-    @keyframes heroFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
-    .card { transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
-    .card:hover { transform: translateY(-12px) scale(1.03); }
-    .overlay-enter { animation: slideUp 0.4s cubic-bezier(0.32, 0.72, 0, 1) forwards; }
-    @keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-    .message-enter { animation: messagePop 0.3s ease forwards; }
-    @keyframes messagePop { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khom Property | Premium Soft Purple Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        premium: {
+                            bg: '#F8F7FC',      
+                            primary: '#6B46C1', 
+                            secondary: '#9F7AEA',
+                            card: '#FFFFFF',     
+                            text: '#2D3748'      
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Anuphan:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;700&display=swap');
+        body { 
+            font-family: 'Anuphan', 'Plus Jakarta Sans', sans-serif; 
+            background-color: #F8F7FC; 
+            -webkit-tap-highlight-color: transparent;
+        }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        
+        /* 1. แอนิเมชั่นกล่องม่วงขยับขึ้นลงนุ่มๆ (ตามสั่ง) */
+        @keyframes floatAnimation {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-6px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float { 
+            animation: floatAnimation 3.5s ease-in-out infinite; 
+        }
+
+        /* 2. แอนิเมชั่นเวลาคาร์ดโหลดขึ้นมา */
+        @keyframes cardFadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-card { animation: cardFadeIn 0.35s ease-out forwards; }
+    </style>
 </head>
-<body class="max-w-md mx-auto min-h-screen pb-20 bg-gradient-to-b from-slate-50 to-slate-100 overflow-x-hidden">
+<body class="text-premium-text min-h-screen pb-24">
 
-  <!-- Navbar -->
-  <nav class="bg-white/95 backdrop-blur-lg border-b sticky top-0 z-50 px-5 py-4 flex justify-between items-center">
-    <button onclick="toggleDarkMode()" class="w-10 h-10 flex items-center justify-center text-gray-600 hover:text-indigo-600">
-      <i class="fa-solid fa-moon text-xl"></i>
-    </button>
-    <div class="flex items-center gap-2">
-      <div class="w-8 h-8 bg-gradient-to-br from-cyan-400 to-indigo-600 rounded-2xl flex items-center justify-center">
-        <span class="text-white text-sm font-bold">K</span>
-      </div>
-      <h1 class="font-bold text-2xl tracking-tighter text-slate-900">KHOM</h1>
-    </div>
-    <button onclick="showSection('news')" class="w-10 h-10 flex items-center justify-center text-gray-600 hover:text-indigo-600 relative">
-      <i class="fa-solid fa-bell text-xl"></i>
-    </button>
-  </nav>
-
-  <!-- Main View -->
-  <div id="main-view" class="p-5 space-y-8">
-    <div class="hero-glow rounded-3xl p-7 text-white relative overflow-hidden shadow-2xl">
-      <div class="relative z-10">
-        <p class="text-cyan-300 text-sm font-medium">Khom Property Platform</p>
-        <h2 id="user-greeting" class="text-3xl font-semibold mt-1">สวัสดีครับ</h2>
-        <p id="room-tag" class="text-cyan-100 mt-1">ยินดีต้อนรับสู่สังคมคุณภาพ</p>
-      </div>
-    </div>
-
-    <div class="grid grid-cols-2 gap-4">
-      <div onclick="showSection('repair')" class="card bg-white rounded-3xl p-6 shadow-sm flex flex-col items-center text-center cursor-pointer">
-        <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-4 text-3xl"><i class="fa-solid fa-screwdriver-wrench"></i></div>
-        <p class="font-semibold">แจ้งซ่อม</p>
-      </div>
-      <div onclick="showSection('payment')" class="card bg-white rounded-3xl p-6 shadow-sm flex flex-col items-center text-center cursor-pointer">
-        <div class="w-16 h-16 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center mb-4 text-3xl"><i class="fa-solid fa-wallet"></i></div>
-        <p class="font-semibold">แจ้งชำระ</p>
-      </div>
-      <div onclick="showSection('benefits')" class="card bg-white rounded-3xl p-6 shadow-sm flex flex-col items-center text-center cursor-pointer">
-        <div class="w-16 h-16 bg-cyan-100 text-cyan-600 rounded-2xl flex items-center justify-center mb-4 text-3xl"><i class="fa-solid fa-gift"></i></div>
-        <p class="font-semibold">สิทธิประโยชน์</p>
-      </div>
-      <div onclick="showSection('rooms')" class="card bg-white rounded-3xl p-6 shadow-sm flex flex-col items-center text-center cursor-pointer border-2 border-cyan-200">
-        <div class="w-16 h-16 bg-cyan-100 text-cyan-600 rounded-2xl flex items-center justify-center mb-4 text-3xl"><i class="fa-solid fa-house"></i></div>
-        <p class="font-semibold">ห้องว่าง</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Overlay -->
-  <div id="feature-overlay" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-end">
-    <div id="overlay-content" class="bg-white w-full rounded-t-3xl max-h-[92%] shadow-2xl overflow-hidden overlay-enter">
-      <div class="sticky top-0 bg-white border-b px-5 py-4 flex items-center gap-4">
-        <button onclick="closeSection()" class="text-4xl text-gray-400">&times;</button>
-        <h2 id="feature-title" class="font-semibold text-xl"></h2>
-      </div>
-      <div id="feature-body" class="p-5 overflow-y-auto" style="max-height: calc(92vh - 73px);"></div>
-    </div>
-  </div>
-
-  <!-- Bottom Nav -->
-  <div class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white border-t h-16 flex items-center justify-around z-50">
-    <button onclick="closeSection()" class="flex-1 flex flex-col items-center py-1 text-gray-500"><i class="fa-solid fa-house text-2xl"></i><span class="text-xs">หน้าแรก</span></button>
-    <button onclick="showSection('news')" class="flex-1 flex flex-col items-center py-1 text-gray-500"><i class="fa-solid fa-newspaper text-2xl"></i><span class="text-xs">ข่าว</span></button>
-    <button onclick="showSection('ai')" class="bg-gradient-to-br from-indigo-700 to-blue-600 text-white w-16 h-16 rounded-3xl -mt-8 shadow-2xl flex items-center justify-center border-4 border-white"><i class="fa-solid fa-robot text-3xl neon-blue"></i></button>
-    <button onclick="showSection('services')" class="flex-1 flex flex-col items-center py-1 text-gray-500"><i class="fa-solid fa-map text-2xl"></i><span class="text-xs">แผนที่</span></button>
-    <button onclick="toggleLogin()" class="flex-1 flex flex-col items-center py-1 text-gray-500"><i class="fa-solid fa-user text-2xl"></i><span class="text-xs">ฉัน</span></button>
-  </div>
-
-  <script>
-    // ================== CONFIG ==================
-    const API_BASE = "https://script.google.com/macros/s/AKfycbwrfbdaQY9GPCRnzAE9a1v5UeEdxDpsavMxCk_OcEu55uggTsl4NoTRX1MHZ2uKl0xVDQ/exec";   // ← เปลี่ยนตรงนี้หลัง Deploy
-
-    let userData = { loggedIn: false, role: 'guest', room: '' };
-    let chatHistory = [];
-
-    async function callAPI(func, payload = {}) {
-      try {
-        const res = await fetch(API_BASE, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ function: func, ...payload })
-        });
-        return await res.json();
-      } catch (err) {
-        console.error(err);
-        alert("เกิดข้อผิดพลาดในการเชื่อมต่อ");
-        return { success: false, message: "Connection error" };
-      }
-    }
-
-    // ================== UI Functions ==================
-    function showSection(type) {
-      const overlay = document.getElementById('feature-overlay');
-      const body = document.getElementById('feature-body');
-      const title = document.getElementById('feature-title');
-
-      overlay.classList.remove('hidden');
-      document.getElementById('overlay-content').classList.add('overlay-enter');
-
-      if (type === 'rooms') {
-        title.textContent = "รายการห้องว่าง";
-        body.innerHTML = `
-          ${userData.role === 'admin' ? `
-          <div class="bg-cyan-50 p-6 rounded-3xl mb-6">
-            <h4 class="font-bold mb-3">เพิ่มห้องว่าง</h4>
-            <input id="nr-name" placeholder="ชื่อห้อง" class="w-full p-4 rounded-2xl border mb-3">
-            <input id="nr-link" placeholder="ลิงก์ห้อง" class="w-full p-4 rounded-2xl border mb-4">
-            <button onclick="addRoom()" class="w-full bg-indigo-700 text-white py-4 rounded-2xl">เพิ่มห้อง</button>
-          </div>` : ''}
-          <div id="room-list" class="space-y-4">กำลังโหลด...</div>
-        `;
-        loadRooms();
-      } else if (type === 'ai') {
-        title.textContent = "คุยกับ พี่คม AI";
-        body.innerHTML = `
-          <div id="chat-box" class="h-[65vh] overflow-y-auto bg-gray-50 p-4 rounded-3xl mb-4 space-y-4"></div>
-          <div class="flex gap-2">
-            <input id="chat-input" type="text" class="flex-1 p-4 rounded-3xl border" placeholder="ถามพี่คม...">
-            <button onclick="sendChat()" class="bg-indigo-700 text-white w-14 h-14 rounded-3xl"><i class="fa-solid fa-paper-plane"></i></button>
-          </div>
-        `;
-      } else if (type === 'benefits') {
-        title.textContent = "สิทธิประโยชน์";
-        body.innerHTML = `<div class="bg-gradient-to-br from-indigo-900 to-blue-950 text-white p-10 rounded-3xl text-center"><p class="text-5xl font-bold neon-blue my-4">14,250</p><p>บาท</p></div>`;
-      } else if (type === 'repair') {
-        title.textContent = "แจ้งซ่อม";
-        body.innerHTML = `
-          <textarea id="repair-detail" class="w-full h-40 p-5 border rounded-3xl" placeholder="รายละเอียดปัญหา..."></textarea>
-          <button onclick="submitRepair()" class="mt-6 w-full bg-indigo-700 text-white py-4 rounded-3xl">ส่งการแจ้ง</button>
-        `;
-      }
-    }
-
-    async function loadRooms() {
-      const data = await callAPI('getVacantRooms');
-      const container = document.getElementById('room-list');
-      if (!data.length) {
-        container.innerHTML = `<p class="text-center py-10 text-gray-400">ยังไม่มีห้องว่าง</p>`;
-        return;
-      }
-      container.innerHTML = data.map(r => `
-        <div class="bg-white p-5 rounded-3xl shadow-sm flex justify-between items-center">
-          <div onclick="window.open('${r.link}','_blank')" class="cursor-pointer">
-            <p class="font-semibold">${r.roomName}</p>
-          </div>
-          \( {userData.role === 'admin' ? `<button onclick="deleteRoom( \){r.rowId})" class="text-red-500"><i class="fa-solid fa-trash"></i></button>` : ''}
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-purple-100/50 px-4 py-3.5 shadow-sm">
+        <div class="max-w-md mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-7 h-7 bg-gradient-to-tr from-premium-primary to-premium-secondary rounded-xl flex items-center justify-center text-white font-bold text-xs shadow-md">
+                    K
+                </div>
+                <h1 class="text-base font-bold tracking-tight text-premium-primary uppercase">Khom Property</h1>
+            </div>
+            <span class="text-[10px] bg-purple-50 text-premium-primary px-2.5 py-1 rounded-full font-semibold border border-purple-100">Free Platform</span>
         </div>
-      `).join('');
-    }
+    </header>
 
-    async function addRoom() {
-      const name = document.getElementById('nr-name').value.trim();
-      const link = document.getElementById('nr-link').value.trim();
-      if (!name || !link) return alert("กรุณากรอกข้อมูล");
-      await callAPI('addVacantRoom', { name, link });
-      alert("เพิ่มสำเร็จ");
-      loadRooms();
-    }
+    <main class="max-w-md mx-auto px-4 mt-4">
+        
+        <div id="browseView" class="space-y-5">
+            
+            <div class="animate-float bg-gradient-to-br from-purple-700 via-purple-600 to-indigo-800 text-white p-6 rounded-3xl shadow-xl shadow-purple-900/10 relative overflow-hidden">
+                <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-white/10 rounded-full blur-xl"></div>
+                <p class="text-purple-200 text-[11px] font-medium tracking-widest uppercase">Welcome To Premium Community</p>
+                <h2 class="text-xl font-bold mt-1">สวัสดีครับ ยินดีต้อนรับ</h2>
+                <p class="text-xs text-purple-100 mt-1 font-light leading-relaxed">ศูนย์รวมซื้อ-ขาย-เช่าอสังหาฯ งานช่างบริการ และอุปกรณ์ตกแต่งบ้านฟรี</p>
+            </div>
 
-    function deleteRoom(id) {
-      if (confirm("ลบห้องนี้?")) callAPI('deleteVacantRoom', { rowId: id }).then(loadRooms);
-    }
+            <div>
+                <p class="text-[11px] font-bold text-slate-400 mb-2.5 px-1 uppercase tracking-wider">เลือกหมวดหมู่ข้อมูล</p>
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="switchTab('Properties')" id="menu-Properties" class="menu-btn bg-white p-4 rounded-2xl border-2 border-premium-primary shadow-sm flex flex-col items-start gap-3 transition-all duration-200 active:scale-95 text-left">
+                        <div class="w-10 h-10 bg-purple-50 text-premium-primary rounded-xl flex items-center justify-center text-lg">🏙️</div>
+                        <span class="font-bold text-xs text-slate-700">ซื้อ-ขาย-เช่าอสังหาฯ</span>
+                    </button>
+                    <button onclick="switchTab('Demands')" id="menu-Demands" class="menu-btn bg-white p-4 rounded-2xl border-2 border-transparent shadow-sm flex flex-col items-start gap-3 transition-all duration-200 active:scale-95 text-left">
+                        <div class="w-10 h-10 bg-purple-50 text-premium-primary rounded-xl flex items-center justify-center text-lg">🔍</div>
+                        <span class="font-bold text-xs text-slate-700">ประกาศตามหาห้อง</span>
+                    </button>
+                    <button onclick="switchTab('Services')" id="menu-Services" class="menu-btn bg-white p-4 rounded-2xl border-2 border-transparent shadow-sm flex flex-col items-start gap-3 transition-all duration-200 active:scale-95 text-left">
+                        <div class="w-10 h-10 bg-purple-50 text-premium-primary rounded-xl flex items-center justify-center text-lg">🛠️</div>
+                        <span class="font-bold text-xs text-slate-700">รวมช่าง/ผู้บริการ</span>
+                    </button>
+                    <button onclick="switchTab('Marketplace')" id="menu-Marketplace" class="menu-btn bg-white p-4 rounded-2xl border-2 border-transparent shadow-sm flex flex-col items-start gap-3 transition-all duration-200 active:scale-95 text-left">
+                        <div class="w-10 h-10 bg-purple-50 text-premium-primary rounded-xl flex items-center justify-center text-lg">🛒</div>
+                        <span class="font-bold text-xs text-slate-700">ตลาดของแต่งบ้าน</span>
+                    </button>
+                </div>
+            </div>
 
-    async function sendChat() {
-      const input = document.getElementById('chat-input');
-      const msg = input.value.trim();
-      if (!msg) return;
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-purple-100/50 space-y-3">
+                <input type="text" id="searchInput" oninput="filterData()" placeholder="🔍 พิมพ์คำค้นหา เช่น คอนโด, รังสิต, ช่างผ้าม่าน..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-premium-primary focus:bg-white transition-all">
+                <div class="grid grid-cols-2 gap-2" id="filterOptions"></div>
+            </div>
 
-      appendMessage('user', msg);
-      chatHistory.push({ role: "user", parts: [{ text: msg }] });
-      input.value = "";
+            <div id="loading" class="text-center py-10 text-slate-400 text-xs font-medium">🔮 ระบบกำลังเรียกคลังข้อมูลหมวดม่วงพรีเมียม...</div>
+            <div id="cardsContainer" class="space-y-4 hidden"></div>
+        </div>
 
-      const res = await callAPI('chatWithPhiKhom', { history: chatHistory });
-      appendMessage('model', res);
-      chatHistory.push({ role: "model", parts: [{ text: res }] });
-    }
+        <div id="postView" class="space-y-4 hidden animate-card">
+            <h2 class="text-base font-bold text-slate-800 flex items-center gap-1.5">
+                <span>✨ สร้างประกาศใหม่ฟรี</span>
+            </h2>
+            
+            <form id="listingForm" onsubmit="submitForm(event)" class="bg-white p-5 rounded-2xl shadow-sm border border-purple-100/50 space-y-4">
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase">เลือกพื้นที่หมวดหมู่ที่คุณต้องการลงประกาศ</label>
+                    <select id="formTab" onchange="adjustFormFields()" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:border-premium-primary transition-all">
+                        <option value="Properties">🏙️ ซื้อ-ขาย-ให้เช่า อสังหาฯ</option>
+                        <option value="Demands">🔍 ประกาศตามหาอสังหาฯ (ฝั่งผู้ซื้อ/ผู้เช่า)</option>
+                        <option value="Services">🛠️ ลงทะเบียนงานบริการ (ช่าง/แม่บ้าน/ตกแต่ง)</option>
+                        <option value="Marketplace">🛒 ขายอุปกรณ์ตกแต่งบ้านและคอนโดทุกชนิด</option>
+                    </select>
+                </div>
 
-    function appendMessage(sender, text) {
-      const box = document.getElementById('chat-box');
-      const div = document.createElement('div');
-      div.className = `message-enter ${sender === 'user' ? 'text-right' : 'text-left'}`;
-      div.innerHTML = `<div class="inline-block p-4 rounded-3xl \( {sender === 'user' ? 'bg-indigo-700 text-white' : 'bg-white shadow'}"> \){text}</div>`;
-      box.appendChild(div);
-      box.scrollTop = box.scrollHeight;
-    }
+                <div id="dynamicFields" class="space-y-4"></div>
 
-    async function submitRepair() {
-      const detail = document.getElementById('repair-detail').value.trim();
-      if (!detail) return alert("กรุณากรอกรายละเอียด");
-      const res = await callAPI('submitData', { sheetName: 'RepairRequests', rowData: [userData.room || 'Guest', detail] });
-      alert(res.message || "ส่งข้อมูลเรียบร้อย");
-      closeSection();
-    }
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase">อัปโหลดรูปภาพ (เลือกพร้อมกันได้หลายภาพ)</label>
+                    <input type="file" id="formImages" multiple accept="image/*" onchange="previewImages()" class="w-full text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-full file:border-0 file:text-[11px] file:font-semibold file:bg-purple-50 file:text-premium-primary hover:file:bg-purple-100 cursor-pointer">
+                    <div id="imagePreviewContainer" class="flex gap-2 overflow-x-auto mt-2 pt-1 scrollbar-hide"></div>
+                </div>
 
-    async function toggleLogin() {
-      if (userData.loggedIn) return location.reload();
-      const room = prompt("Room ID:");
-      const pass = prompt("Password:");
-      if (!room || !pass) return;
+                <div class="grid grid-cols-2 gap-3 pt-2 border-t border-slate-100">
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase">Line ID ติดต่อ</label>
+                        <input type="text" id="formLine" placeholder="เช่น @khom_prop" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-premium-primary transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase">เบอร์โทรติดต่อ</label>
+                        <input type="tel" id="formTel" placeholder="เช่น 09XXXXXXXX" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-premium-primary transition-all">
+                    </div>
+                </div>
 
-      const res = await callAPI('checkLogin', { room, pass });
-      if (res.success) {
-        userData = { loggedIn: true, ...res };
-        document.getElementById('user-greeting').textContent = `สวัสดีครับ ${res.room}`;
-        alert("เข้าสู่ระบบสำเร็จ");
-      } else {
-        alert(res.message || "รหัสผ่านไม่ถูกต้อง");
-      }
-    }
+                <button type="submit" id="submitBtn" class="w-full bg-gradient-to-r from-premium-primary to-purple-700 text-white font-bold text-xs py-3.5 rounded-xl shadow-md active:scale-[0.98] transition-all">
+                    ยืนยันส่งประกาศขึ้นระบบทันที
+                </button>
+            </form>
+        </div>
+    </main>
 
-    function closeSection() {
-      document.getElementById('feature-overlay').classList.add('hidden');
-    }
+    <nav class="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-md border-t border-purple-100 px-6 py-2 shadow-xl z-50">
+        <div class="max-w-md mx-auto flex justify-around items-center">
+            <button onclick="toggleView('browse')" id="nav-browse" class="flex flex-col items-center justify-center w-16 text-premium-primary active:scale-90 transition-transform">
+                <span class="text-xl">🏠</span>
+                <span class="text-[10px] font-bold mt-0.5">หน้าแรก</span>
+            </button>
+            <button onclick="toggleView('post')" id="nav-post" class="flex flex-col items-center justify-center w-16 text-slate-400 active:scale-90 transition-transform">
+                <span class="text-xl">➕</span>
+                <span class="text-[10px] font-bold mt-0.5">ลงประกาศฟรี</span>
+            </button>
+        </div>
+    </nav>
 
-    function toggleDarkMode() {
-      document.documentElement.classList.toggle('dark');
-    }
-  </script>
+    <script>
+        // ⚠️ นำ URL เว็บแอปจาก Google Apps Script (ที่ลงท้ายด้วย /exec) มาวางตรงนี้แทนข้อความเดิมนะครับ
+        const API_URL = "https://script.google.com/macros/s/AKfycbxwUIwZSnMCAHesdY2AwKW3VUuZfT6Un25AbevlweZE8MYu14ZCypt5s8AwYAW8mOhqqw/exec"; 
+
+        let currentTab = 'Properties';
+        let rawDataCache = [];
+        let uploadedBase64Images = [];
+
+        window.onload = function() {
+            switchTab('Properties');
+            adjustFormFields();
+        };
+
+        function toggleView(view) {
+            const navBrowse = document.getElementById('nav-browse');
+            const navPost = document.getElementById('nav-post');
+            
+            if (view === 'post') {
+                document.getElementById('browseView').classList.add('hidden');
+                document.getElementById('postView').classList.remove('hidden');
+                navPost.classList.remove('text-slate-400');
+                navPost.classList.add('text-premium-primary');
+                navBrowse.classList.remove('text-premium-primary');
+                navBrowse.classList.add('text-slate-400');
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            } else {
+                document.getElementById('postView').classList.add('hidden');
+                document.getElementById('browseView').classList.remove('hidden');
+                navBrowse.classList.remove('text-slate-400');
+                navBrowse.classList.add('text-premium-primary');
+                navPost.classList.remove('text-premium-primary');
+                navPost.classList.add('text-slate-400');
+                fetchData();
+            }
+        }
+
+        async function switchTab(tabName) {
+            currentTab = tabName;
+            
+            document.querySelectorAll('.menu-btn').forEach(card => {
+                card.classList.remove('border-premium-primary', 'bg-purple-50/20');
+                card.classList.add('border-transparent');
+            });
+            const activeCard = document.getElementById(`menu-${tabName}`);
+            if(activeCard) {
+                activeCard.classList.remove('border-transparent');
+                activeCard.classList.add('border-premium-primary', 'bg-purple-50/20');
+            }
+            
+            renderFilters();
+            await fetchData();
+        }
+
+        function renderFilters() {
+            const filterBox = document.getElementById('filterOptions');
+            if (currentTab === 'Properties' || currentTab === 'Demands') {
+                filterBox.innerHTML = `
+                    <select id="filterType" onchange="filterData()" class="bg-slate-50 border border-slate-200 text-[11px] text-slate-600 rounded-xl px-2 py-2 focus:outline-none focus:border-premium-primary">
+                        <option value="">ทุกประเภทอสังหาฯ</option>
+                        <option value="คอนโด">คอนโด</option>
+                        <option value="บ้านเดี่ยว">บ้านเดี่ยว</option>
+                        <option value="ทาวน์โฮม">ทาวน์โฮม</option>
+                    </select>
+                    <select id="filterAction" onchange="filterData()" class="bg-slate-50 border border-slate-200 text-[11px] text-slate-600 rounded-xl px-2 py-2 focus:outline-none focus:border-premium-primary">
+                        <option value="">ทั้งหมด (ขาย/เช่า)</option>
+                        <option value="ขาย">ขาย</option>
+                        <option value="ให้เช่า">ให้เช่า</option>
+                    </select>
+                `;
+            } else if (currentTab === 'Services') {
+                filterBox.innerHTML = `
+                    <select id="filterType" onchange="filterData()" class="w-full col-span-2 bg-slate-50 border border-slate-200 text-[11px] text-slate-600 rounded-xl px-2 py-2 focus:outline-none focus:border-premium-primary">
+                        <option value="">ทุกประเภทงานบริการ</option>
+                        <option value="ช่างซ่อมบำรุง">ช่างซ่อมบำรุง</option>
+                        <option value="แม่บ้านทำความสะอาด">แม่บ้านทำความสะอาด</option>
+                        <option value="ตกแต่งภายใน">ผู้รับเหมาตกแต่งภายใน</option>
+                        <option value="ติดตั้งผ้าม่าน/วอลเปเปอร์">ติดตั้งผ้าม่าน/วอลเปเปอร์</option>
+                    </select>
+                `;
+            } else {
+                filterBox.innerHTML = `
+                    <select id="filterType" onchange="filterData()" class="w-full col-span-2 bg-slate-50 border border-slate-200 text-[11px] text-slate-600 rounded-xl px-2 py-2 focus:outline-none focus:border-premium-primary">
+                        <option value="">ทุกสภาพสินค้าตกแต่ง</option>
+                        <option value="มือหนึ่ง">มือหนึ่ง</option>
+                        <option value="มือสอง">มือสองสภาพดี</option>
+                    </select>
+                `;
+            }
+        }
+
+        async function fetchData() {
+            const loadingEl = document.getElementById('loading');
+            const cardsContainer = document.getElementById('cardsContainer');
+            
+            loadingEl.classList.remove('hidden');
+            cardsContainer.classList.add('hidden');
+
+            if (!API_URL || API_URL.includes("วาง_WEB_APP_URL")) {
+                loadingEl.innerHTML = `<div class='p-4 bg-red-50 text-red-600 border border-red-100 rounded-2xl text-[11px] text-left space-y-1 animate-card'>
+                    <p class='font-bold text-xs'>⚠️ ยังไม่ได้ใส่ลิงก์ฐานข้อมูลหลังบ้าน</p>
+                    <p>กรุณานำลิงก์ Web App URL มาใส่ในโค้ดบรรทัดที่ 132 ก่อนครับ</p>
+                </div>`;
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}?tab=${currentTab}`);
+                
+                // ถ้ารีเทิร์นกลับมาไม่ใช่ HTTP 200-299
+                if (!response.ok) {
+                    throw new Error(`เซิร์ฟเวอร์ตอบกลับด้วยรหัสเออร์เรอร์: ${response.status}`);
+                }
+                
+                const textData = await response.getReader ? await response.clone().text() : "";
+                
+                // ตรวจสอบว่าสิ่งที่ส่งกลับมาเป็นหน้าเว็บ Google ล็อกอิน/หน้าจอเออร์เรอร์หรือไม่
+                if (textData.includes("<!DOCTYPE html>") || textData.includes("Google Drive - Virus scan warning")) {
+                    throw new Error("Google ส่งกลับมาเป็นหน้าเว็บเออร์เรอร์ ไม่ใช่ข้อมูลดิบ (อาจเกิดจากโค้ดใน Apps Script ค้าง/ทำงานผิดพลาด)");
+                }
+
+                const data = await response.json();
+                if (!Array.isArray(data)) {
+                    throw new Error("โครงสร้างข้อมูลใน Google Sheet ไม่ถูกต้อง (แถวแรกไม่ใช่หัวตารางที่กำหนดไว้)");
+                }
+                
+                rawDataCache = data;
+                filterData();
+            } catch (err) {
+                // พิมพ์บอกปัญหาที่แท้จริงให้ชัดเจนบนหน้าจอ
+                loadingEl.innerHTML = `<div class='p-4 bg-amber-50 text-amber-800 border border-amber-100 rounded-2xl text-[11px] text-left space-y-2 animate-card'>
+                    <p class='font-bold text-xs text-amber-900'>❌ ตรวจพบข้อผิดพลาดของระบบ</p>
+                    <p class='text-slate-600 bg-white/80 p-2 rounded-lg font-mono text-[10px] border border-amber-200/60 break-all'><b>สาเหตุ:</b> ${err.message}</p>
+                    <div class='text-[11px] text-slate-700 space-y-1 pt-1'>
+                        <p class='font-bold'>🛠️ วิธีเช็คด่วน 2 ข้อ:</p>
+                        <p>1. ตรวจสอบว่า URL ที่ใส่ในบรรทัดที่ 132 ขึ้นต้นด้วย <span class='font-mono text-purple-700 bg-purple-50 px-1 rounded'>https://script.google.com/macros/s/...</span> ใช่ไหม? (ต้องไม่ใช่ลิงก์หน้าต่างตอนพิมพ์โค้ด)</p>
+                        <p>2. ลองเปิดลิงก์ API URL นั้นในแท็บใหม่ของบราวเซอร์ตรงๆ ดูว่ามันแสดงหน้าเออร์เรอร์สีแดงของ Google หรือโชว์ข้อมูลข้อความปกติครับ</p>
+                    </div>
+                </div>`;
+            }
+        }
+
+        function filterData() {
+            const searchKeyword = document.getElementById('searchInput').value.toLowerCase();
+            const filterType = document.getElementById('filterType')?.value || "";
+            const filterAction = document.getElementById('filterAction')?.value || "";
+
+            let filtered = rawDataCache.filter(item => {
+                if(item.Status !== "Active") return false;
+                
+                const matchSearch = (String(item.Title || '') + String(item.Location || '') + String(item.Details || '')).toLowerCase().includes(searchKeyword);
+                let matchType = true;
+                let matchAction = true;
+
+                if(filterType && item.Property_Type !== filterType) matchType = false;
+                if(filterAction && item.Post_Type && !item.Post_Type.includes(filterAction)) matchAction = false;
+
+                return matchSearch && matchType && matchAction;
+            });
+
+            renderCards(filtered);
+        }
+
+        function renderCards(items) {
+            const container = document.getElementById('cardsContainer');
+            document.getElementById('loading').classList.add('hidden');
+            container.classList.remove('hidden');
+            container.innerHTML = '';
+
+            if (items.length === 0) {
+                container.innerHTML = `<div class="text-center py-10 text-slate-400 text-xs">📭 ยังไม่มีข้อมูลประกาศในหมวดหมู่นี้</div>`;
+                return;
+            }
+
+            items.forEach(item => {
+                const imgArr = item.Images ? item.Images.split(',') : ['https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=400&q=80'];
+                const priceDisplay = item.Price ? `${Number(item.Price).toLocaleString()} บาท` : 'ติดต่อสอบถามราคา';
+                
+                let badgeHtml = item.Post_Type ? `<span class="bg-premium-primary text-white text-[9px] font-bold uppercase px-2 py-0.5 rounded-md shadow-sm">${item.Post_Type}</span>` : '';
+                let typeBadge = `<span class="bg-purple-50 text-premium-primary text-[9px] font-semibold px-2 py-0.5 rounded-md border border-purple-100/50">${item.Property_Type}</span>`;
+
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-2xl overflow-hidden border border-purple-100/30 shadow-sm flex flex-col transform transition-all duration-300 animate-card";
+                card.innerHTML = `
+                    <div class="relative w-full aspect-[16/10] bg-slate-100">
+                        <img src="${imgArr[0]}" alt="${item.Title}" class="w-full h-full object-cover">
+                        <div class="absolute top-2.5 left-2.5 flex gap-1 flex-wrap">
+                            ${badgeHtml}
+                            ${typeBadge}
+                        </div>
+                        ${imgArr.length > 1 ? `<div class="absolute bottom-2 right-2 bg-black/60 backdrop-blur-md text-white text-[9px] px-2 py-0.5 rounded-full">+${imgArr.length - 1} รูปภาพ</div>` : ''}
+                    </div>
+                    <div class="p-4 flex-1 flex flex-col justify-between">
+                        <div class="space-y-1.5">
+                            <div class="flex justify-between items-start gap-2">
+                                <h3 class="text-xs font-bold text-slate-800 line-clamp-2">${item.Title}</h3>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <p class="text-[11px] text-slate-400">📍 ${item.Location || 'ทุกพื้นที่'}</p>
+                                <span class="text-premium-primary font-bold text-xs">${priceDisplay}</span>
+                            </div>
+                            <p class="text-[11px] text-slate-500 line-clamp-2 pt-2 border-t border-slate-50 mt-1">${item.Details}</p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 mt-3.5 pt-3 border-t border-slate-100">
+                            <a href="https://line.me/ti/p/~${item.Contact_Line.replace('@','')}" target="_blank" class="bg-slate-50 hover:bg-purple-50 hover:text-premium-primary text-slate-600 text-xs font-bold py-2 rounded-xl text-center transition-all active:scale-95 flex items-center justify-center gap-1">
+                                💬 ทักไลน์
+                            </a>
+                            <a href="tel:${item.Contact_Tel}" class="bg-gradient-to-r from-premium-primary to-purple-600 text-white text-xs font-bold py-2 rounded-xl text-center transition-all active:scale-95 flex items-center justify-center gap-1 shadow-sm">
+                                📞 โทรคุย
+                            </a>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function adjustFormFields() {
+            const type = document.getElementById('formTab').value;
+            const container = document.getElementById('dynamicFields');
+            container.innerHTML = '';
+
+            let html = `
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase">หัวข้อชื่อประกาศ</label>
+                    <input type="text" id="formTitle" placeholder="เช่น ให้เช่าคอนโดหรูทำเลดี หรือ บริการติดตั้งวอลเปเปอร์" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-premium-primary transition-all">
+                </div>
+            `;
+
+            if (type === 'Properties' || type === 'Demands') {
+                html += `
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase">วัตถุประสงค์</label>
+                            <select id="formPostType" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-premium-primary transition-all">
+                                <option value="ให้เช่า">ให้เช่า</option>
+                                <option value="ขายด่วน">ขายด่วน</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase">ประเภทอสังหาฯ</label>
+                            <select id="formPropType" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-premium-primary transition-all">
+                                <option value="คอนโด">คอนโด</option>
+                                <option value="บ้านเดี่ยว">บ้านเดี่ยว</option>
+                                <option value="ทาวน์โฮม">ทาวน์โฮม</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase">ราคาขาย หรือ งบเช่าต่อเดือน (บาท)</label>
+                        <input type="number" id="formPrice" placeholder="เช่น 15000" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-premium-primary transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase">ทำเลที่ตั้ง / โซนสถานที่</label>
+                        <input type="text" id="formLocation" placeholder="เช่น ใกล้ ม.ธรรมศาสตร์ รังสิต" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-premium-primary transition-all">
+                    </div>
+                `;
+            } else if (type === 'Services') {
+                html += `
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase">ประเภทงานบริการของคุณ</label>
+                            <select id="formPropType" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-premium-primary transition-all">
+                                <option value="ช่างซ่อมบำรุง">ช่างซ่อมบำรุง</option>
+                                <option value="แม่บ้านทำความสะอาด">แม่บ้านทำความสะอาด</option>
+                                <option value="ตกแต่งภายใน">ผู้รับเหมาตกแต่งภายใน</option>
+                                <option value="ติดตั้งผ้าม่าน/วอลเปเปอร์">ติดตั้งผ้าม่าน/วอลเปเปอร์</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase">พื้นที่ที่รับงาน</label>
+                            <input type="text" id="formLocation" placeholder="เช่น รังสิต หรือ ทั่วกรุงเทพฯ" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-premium-primary transition-all">
+                        </div>
+                    </div>
+                `;
+            } else if (type === 'Marketplace') {
+                html += `
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase">สภาพของแต่งบ้าน</label>
+                            <select id="formPropType" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-premium-primary transition-all">
+                                <option value="มือหนึ่ง">มือหนึ่ง</option>
+                                <option value="มือสอง">มือสองสภาพดี</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase">ราคาขายสินค้า (บาท)</label>
+                            <input type="number" id="formPrice" placeholder="เช่น 2900" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-premium-primary transition-all">
+                        </div>
+                    </div>
+                `;
+            }
+
+            html += `
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase">รายละเอียดข้อมูลประกาศเพิ่มเติม</label>
+                    <textarea id="formDetails" rows="3" placeholder="กรอกขนาดพื้นที่, ของแถม หรือเงื่อนไขเพิ่มเติมที่ต้องการให้ผู้ซื้อทราบ..." required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-premium-primary transition-all"></textarea>
+                </div>
+            `;
+            container.innerHTML = html;
+        }
+
+        function previewImages() {
+            const files = document.getElementById('formImages').files;
+            const container = document.getElementById('imagePreviewContainer');
+            container.innerHTML = '';
+            uploadedBase64Images = [];
+
+            Array.from(files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    uploadedBase64Images.push({
+                        base64: e.target.result,
+                        type: file.type,
+                        name: file.name
+                    });
+                    const div = document.createElement('div');
+                    div.className = "relative flex-shrink-0 w-16 h-16 rounded-xl overflow-hidden border border-slate-200 shadow-sm animate-card";
+                    div.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover">`;
+                    container.appendChild(div);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        async function submitForm(event) {
+            event.preventDefault();
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.innerText = "กำลังอัปโหลดรูปภาพและบันทึกข้อมูล...";
+            submitBtn.disabled = true;
+
+            const tab = document.getElementById('formTab').value;
+            const payload = {
+                tab: tab,
+                Title: document.getElementById('formTitle').value,
+                Property_Type: document.getElementById('formPropType').value,
+                Location: document.getElementById('formLocation')?.value || "ครอบคลุมทั่วไป",
+                Price: document.getElementById('formPrice')?.value || "",
+                Post_Type: document.getElementById('formPostType')?.value || "",
+                Details: document.getElementById('formDetails').value,
+                Contact_Line: document.getElementById('formLine').value,
+                Contact_Tel: document.getElementById('formTel').value,
+                images: uploadedBase64Images
+            };
+
+            try {
+                await fetch(API_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                alert("🎉 บันทึกข้อมูลและลงประกาศเรียบร้อยแล้ว!");
+                document.getElementById('listingForm').reset();
+                document.getElementById('imagePreviewContainer').innerHTML = '';
+                uploadedBase64Images = [];
+                toggleView('browse');
+                switchTab(tab);
+            } catch (err) {
+                alert("เกิดปัญหาขัดข้องในการส่งข้อมูล กรุณาลองใหม่อีกครั้ง");
+            } finally {
+                submitBtn.innerText = "ยืนยันส่งประกาศขึ้นระบบทันที";
+                submitBtn.disabled = false;
+            }
+        }
+    </script>
 </body>
 </html>
