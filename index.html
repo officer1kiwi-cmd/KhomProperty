@@ -282,7 +282,7 @@
 
                 const data = await response.json();
                 if (!Array.isArray(data)) {
-                    throw new Error("โครงสร้างข้อมูลใน Google Sheet ไม่ถูกต้อง (แถวแรกไม่ใช่หัวตารางที่กำหนดไว้)");
+                    throw new Error("โครงสร้างข้อมูลในฐานข้อมูลไม่ถูกต้อง");
                 }
                 
                 rawDataCache = data;
@@ -291,11 +291,6 @@
                 // พิมพ์บอกปัญหาที่แท้จริงให้ชัดเจนบนหน้าจอ
                 loadingEl.innerHTML = `<div class='p-4 bg-amber-50 text-amber-800 border border-amber-100 rounded-2xl text-[11px] text-left space-y-2 animate-card'>
                     <p class='font-bold text-xs text-amber-900'>❌ ตรวจพบข้อผิดพลาดของระบบ</p>
-                    <p class='text-slate-600 bg-white/80 p-2 rounded-lg font-mono text-[10px] border border-amber-200/60 break-all'><b>สาเหตุ:</b> ${err.message}</p>
-                    <div class='text-[11px] text-slate-700 space-y-1 pt-1'>
-                        <p class='font-bold'>🛠️ วิธีเช็คด่วน 2 ข้อ:</p>
-                        <p>1. ตรวจสอบว่า URL ที่ใส่ในบรรทัดที่ 132 ขึ้นต้นด้วย <span class='font-mono text-purple-700 bg-purple-50 px-1 rounded'>https://script.google.com/macros/s/...</span> ใช่ไหม? (ต้องไม่ใช่ลิงก์หน้าต่างตอนพิมพ์โค้ด)</p>
-                        <p>2. ลองเปิดลิงก์ API URL นั้นในแท็บใหม่ของบราวเซอร์ตรงๆ ดูว่ามันแสดงหน้าเออร์เรอร์สีแดงของ Google หรือโชว์ข้อมูลข้อความปกติครับ</p>
                     </div>
                 </div>`;
             }
