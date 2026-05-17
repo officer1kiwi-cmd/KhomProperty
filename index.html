@@ -39,12 +39,12 @@
             <div id="newsBanner" class="bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 text-white p-6 rounded-3xl shadow-xl transition-all duration-500">
                 <p class="text-purple-300 text-xs font-bold tracking-wider uppercase mb-1">📢 ข่าวสารและอัปเดตล่าสุด</p>
                 <h2 id="bannerTitle" class="text-lg font-bold line-clamp-1">กำลังเชื่อมต่อระบบข่าวสาร...</h2>
-                <p id="bannerContent" class="text-base text-purple-100 mt-2 font-light line-clamp-2">ระบบกำลังดึงข้อมูล ล่าสุดกรุณารอสักครู่</p>
+                <p id="bannerContent" class="text-base text-purple-100 mt-2 font-light line-clamp-2">ระบบกำลังดึงข้อมูลล่าสุดกรุณารอสักครู่</p>
             </div>
 
             <div class="grid grid-cols-2 gap-3">
                 <button onclick="switchCategory('Properties')" id="cat-Properties" class="cat-btn bg-white p-4 rounded-2xl border-2 border-premium-primary shadow-sm flex flex-col items-start gap-2 text-left">
-                    <span class="text-2xl">🏙️</span><span class="font-bold text-base text-slate-800">ซื้อ-ขาย-เช่าบ้าน</span>
+                    <span class="text-2xl">🏙️</span><span class="font-bold text-base text-slate-800">ซื้อ-ขาย-เช่าอสังหาฯ</span>
                 </button>
                 <button onclick="switchCategory('Demands')" id="cat-Demands" class="cat-btn bg-white p-4 rounded-2xl border-2 border-transparent shadow-sm flex flex-col items-start gap-2 text-left">
                     <span class="text-2xl">🔍</span><span class="font-bold text-base text-slate-800">ประกาศตามหา</span>
@@ -129,11 +129,7 @@
                         <span class="text-slate-300">📞 เบอร์โทร:</span>
                         <a href="tel:0937321818" class="font-bold text-purple-200 underline">0937321818</a>
                     </div>
-                    <div class="flex items-center justify-between bg-black/30 px-3 py-2.5 rounded-xl">
-                        <span class="text-slate-300">💬 ไลน์ไอดี:</span>
-                        <a href="https://line.me/ti/p/~0937321818" target="_blank" class="font-bold text-green-400 underline">0937321818</a>
-                    </div>
-                </div>
+                 </div>
             </div>
 
             <h3 class="text-base font-bold text-purple-900 uppercase tracking-wider">🗂️ รายการประกาศทั้งหมดของคุณ (รวมทุกสถานะ)</h3>
@@ -147,14 +143,13 @@
                 <div id="detailBadges" class="flex gap-1.5 flex-wrap"></div>
                 <button onclick="closeDetailModal()" class="text-slate-500 bg-slate-100 rounded-full w-8 h-8 flex items-center justify-center font-bold text-lg border">✕</button>
             </div>
-            <div id="detailImages" class="w-full aspect-[16/10] rounded-2xl bg-slate-100 overflow-hidden shadow-inner"></div>
+            <div id="detailImages" class="w-full aspect-[16/10] rounded-2xl bg-slate-100 overflow-hidden shadow-inner flex items-center justify-center relative"></div>
             <h2 id="detailTitle" class="font-bold text-xl text-slate-900 leading-tight"></h2>
             <div class="flex flex-col gap-1 bg-purple-50 p-4 rounded-xl border border-purple-100">
                 <span id="detailLocation" class="text-base text-slate-700 font-semibold">📍 </span>
                 <span id="detailPrice" class="font-bold text-xl text-premium-primary mt-1"></span>
             </div>
             <p id="detailText" class="text-base text-slate-800 leading-relaxed bg-slate-50 p-4 rounded-xl whitespace-pre-line border border-slate-100"></p>
-            
             <div id="actionButtons" class="grid grid-cols-2 gap-3 pt-2"></div>
         </div>
     </div>
@@ -193,58 +188,43 @@
         <div class="max-w-md mx-auto flex justify-around items-center">
             <button onclick="navigateTo('browse')" id="nav-browse" class="flex flex-col items-center justify-center w-16 text-premium-primary"><span class="text-2xl">🏠</span><span class="text-xs font-bold mt-1">หน้าแรก</span></button>
             <button onclick="navigateTo('news')" id="nav-news" class="flex flex-col items-center justify-center w-16 text-slate-400"><span class="text-2xl">📰</span><span class="text-xs font-bold mt-1">ข่าวสาร</span></button>
-            <button onclick="navigateTo('post')" id="nav-post" class="flex flex-col items-center justify-center w-16 text-slate-400"><span class="text-2xl">➕</span><span class="text-xs font-bold mt-1">ลงประกาศ</span></button>
-            <button onclick="navigateTo('profile')" id="nav-profile" class="flex flex-col items-center justify-center w-16 text-slate-400"><span class="text-2xl">👤</span><span class="text-xs font-bold mt-1">ฉัน</span></button>
+            <button onclick="navigateTo('post')" id="nav-post" class="flex flex-col items-center justify-center w-16 text-slate-400"><span class="text-2xl">✨</span><span class="text-xs font-bold mt-1">ลงประกาศ</span></button>
+            <button onclick="navigateTo('profile')" id="nav-profile" class="flex flex-col items-center justify-center w-16 text-slate-400"><span class="text-2xl">👤</span><span class="text-xs font-bold mt-1">โปรไฟล์</span></button>
         </div>
     </nav>
 
     <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbwKRTylKWfct8MpW_8RB2OyOQXKEb2UBtFRxg4IQysU-HMr3sxW-vl0K0xnDDJq4vBtXA/exec";
-        let userSession = JSON.parse(localStorage.getItem('khom_user')) || null;
+        // ใส่ลิงก์ Web App URL จากการ Deploy ใน Apps Script ของคุณที่นี่
+        const API_URL = "https://script.google.com/macros/s/AKfycbxMbjpdO4VI1ndHoxOaG0Do9mjuHp5pL3fe3pGrDBOs4fm3q7FN0ef0YXNuSVu6zez_wQ/exec";
+
         let currentCategory = 'Properties';
         let allDataCache = [];
         let newsCache = [];
         let currentNewsIndex = 0;
+        let userSession = JSON.parse(localStorage.getItem('khom_user')) || null;
         let authMode = 'login';
         let pendingView = null;
         let uploadedBase64Images = [];
-        let editingItem = null; // ตัวแปรสำหรับเก็บข้อมูลประกาศที่กำลังเข้าสู่กระบวนการแก้ไขตามเงื่อนไขข้อ 1
+        let editingItem = null;
 
-        window.onload = async function() {
+        window.onload = () => {
             updateUserUI();
-            fetchNews();
+            renderFilters(); // เรียกขึ้นมาแสดงตัวเลือกแบบคงที่ครั้งแรกสุดก่อนดึงชีต
             adjustFormFields();
-            setInterval(rotateNewsBanner, 20000);
-
-            const urlParams = new URLSearchParams(window.location.search);
-            const sharedTab = urlParams.get('tab');
-            const sharedRowId = urlParams.get('rowId');
-            if (sharedTab && sharedRowId) {
-                currentCategory = sharedTab;
-                document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.replace('border-premium-primary', 'border-transparent'));
-                const targetCatBtn = document.getElementById(`cat-${sharedTab}`);
-                if(targetCatBtn) targetCatBtn.classList.replace('border-transparent', 'border-premium-primary');
-                
-                renderFilters();
-                await loadCategoryData();
-                const sharedItem = allDataCache.find(item => String(item.rowId) === String(sharedRowId));
-                if (sharedItem) openDetailModal(sharedItem);
+            fetchNews();
+            setInterval(rotateNewsBanner, 6000);
+            
+            const params = new URLSearchParams(window.location.search);
+            const t = params.get('tab');
+            const r = params.get('rowId');
+            if(t && r) {
+                currentCategory = t;
+                switchCategoryUI(t);
+                loadCategoryData(true, r);
             } else {
-                switchCategory('Properties');
+                loadCategoryData();
             }
         };
-
-        function updateUserUI() {
-            const info = document.getElementById('userInfo');
-            if (userSession) {
-                info.innerText = `👤 ${userSession.name} ${userSession.isAdmin ? '(ผู้ดูแล)' : ''}`;
-                document.getElementById('profileName').innerText = userSession.name;
-                if(userSession.isAdmin) document.getElementById('adminNewsBtn').classList.remove('hidden');
-            } else {
-                info.innerText = "👥 แขกรับเชิญ";
-                document.getElementById('adminNewsBtn').classList.add('hidden');
-            }
-        }
 
         function navigateTo(view) {
             if ((view === 'post' || view === 'profile') && !userSession) {
@@ -252,18 +232,18 @@
                 openAuthModal();
                 return;
             }
-            
-            // หากผู้ใช้จงใจคลิกสลับแท็บเมนูไปช่องอื่น ให้หลุดออกจาก Edit Mode อัตโนมัติ เพื่อความถูกต้อง
             if (view !== 'post') {
                 cancelEditMode();
             }
-
             document.querySelectorAll('.tab-view').forEach(el => el.classList.add('hidden'));
             document.getElementById(`view-${view}`).classList.remove('hidden');
             document.querySelectorAll('nav button').forEach(btn => btn.classList.replace('text-premium-primary', 'text-slate-400'));
             document.getElementById(`nav-${view}`).classList.replace('text-slate-400', 'text-premium-primary');
             
-            if(view === 'browse') loadCategoryData();
+            if(view === 'browse') {
+                renderFilters();
+                loadCategoryData();
+            }
             if(view === 'news') renderNewsPage();
             if(view === 'profile') renderMyPosts();
         }
@@ -280,110 +260,147 @@
             if (newsCache.length === 0) return;
             const latestNews = newsCache.slice(-3);
             const news = latestNews[currentNewsIndex % latestNews.length];
-            
             const titleEl = document.getElementById('bannerTitle');
             const contentEl = document.getElementById('bannerContent');
             if(!titleEl || !contentEl) return;
-            titleEl.style.opacity = 0;
-            contentEl.style.opacity = 0;
+            titleEl.style.opacity = 0; contentEl.style.opacity = 0;
             setTimeout(() => {
                 titleEl.innerText = news.Title;
                 contentEl.innerText = news.Content;
-                titleEl.style.opacity = 1;
-                contentEl.style.opacity = 1;
+                titleEl.style.opacity = 1; contentEl.style.opacity = 1;
             }, 300);
             currentNewsIndex++;
         }
 
         function renderNewsPage() {
             const container = document.getElementById('newsListContainer');
-            container.innerHTML = '';
-            if(newsCache.length === 0) {
-                container.innerHTML = '<p class="text-center text-base text-slate-500 py-6 font-bold">📭 ไม่มีข้อมูลข่าวสารในขณะนี้</p>';
-                return;
-            }
+            container.innerHTML = newsCache.length === 0 ? '<p class="text-center text-slate-400 py-6">ไม่มีข่าวสารในขณะนี้</p>' : '';
             [...newsCache].reverse().forEach(news => {
-                const div = document.createElement('div');
-                div.className = "bg-white p-5 rounded-2xl border-2 border-purple-100 shadow-sm space-y-2";
-                div.innerHTML = `<h4 class="font-bold text-lg text-purple-950">${news.Title}</h4><p class="text-base text-slate-700 leading-relaxed">${news.Content}</p><span class="text-xs text-slate-400 font-semibold">${new Date(news.Timestamp).toLocaleDateString('th-TH')}</span>`;
-                container.appendChild(div);
+                const item = document.createElement('div');
+                item.className = "bg-white p-5 rounded-2xl border shadow-sm space-y-1.5";
+                item.innerHTML = `<span class="text-xs text-purple-600 font-bold">🗓️ ${new Date(news.Timestamp).toLocaleDateString('th-TH')}</span><h3 class="font-bold text-base text-slate-900 leading-tight">${news.Title}</h3><p class="text-sm text-slate-600 leading-relaxed">${news.Content}</p>`;
+                container.appendChild(item);
             });
         }
 
-        async function switchCategory(cat) {
-            currentCategory = cat;
-            document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.replace('border-premium-primary', 'border-transparent'));
-            document.getElementById(`cat-${cat}`).classList.replace('border-transparent', 'border-premium-primary');
-            renderFilters();
-            await loadCategoryData();
-        }
-
-        async function loadCategoryData() {
-            const loading = document.getElementById('loading');
-            const container = document.getElementById('cardsContainer');
-            loading.classList.remove('hidden');
-            container.classList.add('hidden');
-
+        async function loadCategoryData(openModalDirectly = false, targetRowId = null) {
+            document.getElementById('loading').classList.remove('hidden');
+            document.getElementById('cardsContainer').classList.add('hidden');
             try {
                 const response = await fetch(`${API_URL}?tab=${currentCategory}`);
                 allDataCache = await response.json();
-                displayCards(allDataCache, 'cardsContainer');
+                filterGrid();
+                if(openModalDirectly && targetRowId) {
+                    const found = allDataCache.find(x => String(x.rowId) === String(targetRowId));
+                    if(found) openDetailModal(found);
+                }
             } catch(e) {
-                loading.innerHTML = '<p class="text-base font-bold text-red-500">❌ เกิดข้อผิดพลาดในการเชื่อมโยงข้อมูลหลังบ้าน</p>';
+                document.getElementById('loading').innerText = "❌ เกิดข้อผิดพลาด ไม่สามารถดึงข้อมูลได้";
             }
         }
 
-        function displayCards(items, targetContainerId = 'cardsContainer') {
-            const container = document.getElementById(targetContainerId);
-            if(targetContainerId === 'cardsContainer') {
-                document.getElementById('loading').classList.add('hidden');
+        function switchCategory(cat) {
+            currentCategory = cat;
+            switchCategoryUI(cat);
+            renderFilters(); // รีเฟรชเงื่อนไขของตัวเลือกให้สอดคล้องกับหมวดหมู่ใหม่ทันทีโดยไม่สนว่าชีตจะว่างหรือไม่
+            loadCategoryData();
+        }
+
+        function switchCategoryUI(cat) {
+            document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.replace('border-premium-primary', 'border-transparent'));
+            const activeBtn = document.getElementById(`cat-${cat}`);
+            if(activeBtn) activeBtn.classList.replace('border-transparent', 'border-premium-primary');
+        }
+
+        // แก้ไขฟังก์ชันแสดงผลตัวกรองค้นหาให้ตรงตามแท็บที่ผู้ใช้งานกด เพื่อให้ปรากฏตัวเลือกขึ้นมาอย่างชัดเจนแน่นอน
+        function renderFilters() {
+            const box = document.getElementById('filterOptions');
+            if(!box) return;
+            
+            let typeOptions = '<option value="">🏠 ทุกประเภท</option>';
+            let postOptions = '<option value="">💰 ทุกดีล</option>';
+            
+            if (currentCategory === 'Properties') {
+                typeOptions += `<option value="คอนโด">คอนโด</option><option value="บ้านเดี่ยว">บ้านเดี่ยว</option><option value="ทาวน์โฮม">ทาวน์โฮม</option><option value="ที่ดิน">ที่ดิน</option><option value="อาคารพาณิชย์">อาคารพาณิชย์</option>`;
+                postOptions += `<option value="ขาย">ขาย</option><option value="ให้เช่า">ให้เช่า</option><option value="ขายดาวน์">ขายดาวน์</option>`;
+            } else if (currentCategory === 'Demands') {
+                typeOptions += `<option value="หาซื้อ">หาซื้อ</option><option value="หาเช่า">หาเช่า</option>`;
+                postOptions += `<option value="ด่วน">ด่วน</option><option value="ทั่วไป">ทั่วไป</option>`;
+            } else if (currentCategory === 'Services') {
+                typeOptions += `<option value="ช่างไฟ">ช่างไฟ</option><option value="ช่างประปา">ช่างประปา</option><option value="ช่างแอร์">ช่างแอร์</option><option value="ผู้รับเหมา">ผู้รับเหมา</option><option value="ทำความสะอาด">ทำความสะอาด</option><option value="บริการอื่นๆ">บริการอื่นๆ</option>`;
+                postOptions += `<option value="รับงานทั่วไป">รับงานทั่วไป</option><option value="บริษัท/ร้านค้า">บริษัท/ร้านค้า</option>`;
+            } else if (currentCategory === 'Marketplace') {
+                typeOptions += `<option value="เฟอร์นิเจอร์">เฟอร์นิเจอร์</option><option value="เครื่องใช้ไฟฟ้า">เครื่องใช้ไฟฟ้า</option><option value="ของตกแต่ง">ของตกแต่ง</option><option value="ต้นไม้/สวน">ต้นไม้/สวน</option><option value="อื่นๆ">อื่นๆ</option>`;
+                postOptions += `<option value="มือหนึ่ง">มือหนึ่ง</option><option value="มือสอง">มือสอง</option>`;
             }
-            container.classList.remove('hidden');
-            container.innerHTML = '';
 
-            const isMyProfile = (targetContainerId === 'myCardsContainer');
+            box.innerHTML = `
+                <select id="fType" onchange="filterGrid()" class="bg-slate-50 border-2 border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-premium-primary">
+                    ${typeOptions}
+                </select>
+                <select id="fPost" onchange="filterGrid()" class="bg-slate-50 border-2 border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-premium-primary">
+                    ${postOptions}
+                </select>
+            `;
+        }
 
-            // ระบบคัดกรอง: ถ้าอยู่ที่หน้าแรก ให้ดึงเฉพาะ Active/หรือค่าว่างขึ้นแสดงผล แต่ถ้าเป็นที่หน้าโปรไฟล์ตัวเอง ให้เอาขึ้นมาโชว์ทั้งหมดเพื่อเปิดทางให้เปิด-ปิดสถานะได้อิสระตามเงื่อนไขข้อ 1
-            const displayedItems = items.filter(i => {
-                if (isMyProfile) return true; 
-                if (!i.Status || String(i.Status).trim() === "") return true; 
-                return String(i.Status).toLowerCase() === "active";
-            });
+        function triggerSearch() { 
+            filterGrid();
+        }
 
-            if (displayedItems.length === 0) {
-                container.innerHTML = `<div class="text-center py-14 text-slate-500 text-lg font-bold bg-white rounded-2xl border-2 border-dashed border-purple-200">📭 ยังไม่มีรายการประกาศ</div>`;
-                return;
+        function filterGrid() {
+            if(!document.getElementById('fType')) {
+                renderFilters();
             }
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const fType = document.getElementById('fType').value;
+            const fPost = document.getElementById('fPost').value;
+            
+            let filtered = allDataCache;
+            if(!userSession || !userSession.isAdmin) {
+                filtered = filtered.filter(x => x.Status !== 'Inactive');
+            }
+            if(query) {
+                filtered = filtered.filter(x => (x.Title && x.Title.toLowerCase().includes(query)) || (x.Location && x.Location.toLowerCase().includes(query)) || (x.Details && x.Details.toLowerCase().includes(query)));
+            }
+            if(fType) filtered = filtered.filter(x => x.Property_Type === fType);
+            if(fPost) filtered = filtered.filter(x => x.Post_Type === fPost);
+            
+            displayCards(filtered, 'cardsContainer');
+            document.getElementById('loading').classList.add('hidden');
+            document.getElementById('cardsContainer').classList.remove('hidden');
+        }
 
-            displayedItems.forEach(item => {
-                const img = item.Images ? item.Images.split(',')[0] : 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=400&q=80';
+        function displayCards(data, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = data.length === 0 ? '<p class="text-center text-slate-400 py-6 text-base font-bold">📭 ยังไม่มีประกาศในหมวดหมู่นี้</p>' : '';
+            
+            data.forEach(item => {
                 const card = document.createElement('div');
-                card.className = "bg-white rounded-2xl overflow-hidden border-2 border-purple-50 shadow-md flex transform transition-all active:scale-95 animate-card cursor-pointer relative";
-              
+                card.className = "bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex gap-3 cursor-pointer hover:shadow-md transition-all animate-card";
                 card.onclick = () => openDetailModal(item);
                 
-                // สร้างป้ายกำกับบอกสถานะอสังหาฯ ในหน้าโปรไฟล์เพื่อความชัดเจน
-                let badgeStatusHtml = '';
-                if (item.Status && String(item.Status).toLowerCase() === 'inactive') {
-                    badgeStatusHtml = `<span class="absolute top-2 left-2 bg-amber-500 text-white text-xs font-bold px-2 py-0.5 rounded shadow">ปิดชั่วคราว</span>`;
-                } else if (item.Status && String(item.Status).toLowerCase() === 'sold') {
-                    badgeStatusHtml = `<span class="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded shadow">ขาย/เช่าแล้ว</span>`;
-                }
-
+                const imgs = item.Images ? item.Images.split(',') : [];
+                const imgHtml = imgs.length > 0 ? `<img src="${imgs[0]}" class="w-24 h-24 object-cover rounded-xl bg-slate-50 flex-shrink-0">` : `<div class="w-24 h-24 bg-slate-100 rounded-xl flex items-center justify-center text-slate-400 text-xs font-bold">ไม่มีรูปภาพ</div>`;
+                
+                let statusBadge = '';
+                if(item.Status === 'Inactive') statusBadge = '<span class="bg-amber-100 text-amber-800 text-xs font-bold px-2 py-0.5 rounded-md">ปิดชั่วคราว</span>';
+                if(item.Status === 'Sold') statusBadge = '<span class="bg-red-100 text-red-800 text-xs font-bold px-2 py-0.5 rounded-md">ขาย/เช่าแล้ว</span>';
+                
                 card.innerHTML = `
-                    <div class="w-32 h-32 flex-shrink-0 bg-slate-100 relative">
-                        <img src="${img}" class="w-full h-full object-cover">
-                        ${badgeStatusHtml}
-                    </div>
-                    <div class="p-4 flex flex-col justify-between flex-1 min-w-0">
-                        <div class="space-y-1">
-                            <h3 class="text-base font-bold text-slate-900 truncate">${item.Title}</h3>
-                            <p class="text-sm font-semibold text-purple-700 truncate">📍 ${item.Location}</p>
-                            <p class="text-sm text-slate-500 line-clamp-2">${item.Details}</p>
+                    ${imgHtml}
+                    <div class="flex flex-col justify-between flex-grow min-w-0">
+                        <div>
+                            <div class="flex items-center gap-1.5 mb-1 flex-wrap">
+                                <span class="bg-purple-100 text-premium-primary text-xs font-bold px-2 py-0.5 rounded-md">${item.Post_Type || 'ทั่วไป'}</span>
+                                ${statusBadge}
+                            </div>
+                            <h3 class="font-bold text-base text-slate-900 line-clamp-1 leading-tight">${item.Title || '-'}</h3>
+                            <p class="text-xs text-slate-400 mt-1 line-clamp-1">📍 ${item.Location || '-'}</p>
                         </div>
-                        <div class="flex justify-between items-center pt-2 border-t border-slate-100">
-                            <span class="text-premium-primary font-bold text-base">${item.Price ? Number(item.Price).toLocaleString() + ' บาท' : 'เช็คราคา'}</span>
-                            <span class="text-xs font-bold bg-purple-100 text-premium-primary px-2 py-0.5 rounded-lg">${item.Property_Type}</span>
+                        <div class="flex justify-between items-end mt-2">
+                            <span class="font-bold text-base text-premium-primary">${item.Price} บาท</span>
+                            <span class="text-[11px] text-slate-400">👤 ${item.Owner_Name || 'ไม่ระบุ'}</span>
                         </div>
                     </div>
                 `;
@@ -393,306 +410,207 @@
 
         function openDetailModal(item) {
             const modal = document.getElementById('detailModal');
-            const inner = modal.querySelector('div');
+            const inner = modal.querySelector('.bg-white');
             
-            document.getElementById('detailTitle').innerText = item.Title;
-            document.getElementById('detailLocation').innerText = "📍 " + item.Location;
-            document.getElementById('detailPrice').innerText = item.Price ? Number(item.Price).toLocaleString() + " บาท" : "ติดต่อผู้ประกาศ";
-            document.getElementById('detailText').innerText = item.Details;
+            document.getElementById('detailTitle').innerText = item.Title || '-';
+            document.getElementById('detailLocation').innerText = '📍 ทำเลที่ตั้ง: ' + (item.Location || '-');
+            document.getElementById('detailPrice').innerText = '💰 ราคา: ' + item.Price + ' บาท';
+            document.getElementById('detailText').innerText = item.Details || '';
             
             const badges = document.getElementById('detailBadges');
-            let currentStatusLabel = "เปิดประกาศปกติ";
-            if(item.Status === "Inactive") currentStatusLabel = "ปิดชั่วคราว";
-            if(item.Status === "Sold") currentStatusLabel = "ขาย/เช่าแล้ว";
-            
-            badges.innerHTML = `
-                <span class="bg-premium-primary text-white text-xs font-bold px-3 py-1 rounded-full">${item.Post_Type || 'ทั่วไป'}</span>
-                <span class="bg-slate-700 text-white text-xs font-bold px-3 py-1 rounded-full">สถานะ: ${currentStatusLabel}</span>
-            `;
-            
+            badges.innerHTML = `<span class="bg-purple-100 text-premium-primary text-xs font-bold px-2.5 py-1 rounded-md">${item.Property_Type}</span>
+                                <span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded-md">${item.Post_Type}</span>`;
+            if(item.Status === 'Inactive') badges.innerHTML += '<span class="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-1 rounded-md">ปิดชั่วคราว</span>';
+            if(item.Status === 'Sold') badges.innerHTML += '<span class="bg-red-100 text-red-800 text-xs font-bold px-2.5 py-1 rounded-md">ขาย/เช่าแล้ว</span>';
+
             const imgContainer = document.getElementById('detailImages');
             const imgs = item.Images ? item.Images.split(',') : [];
-            imgContainer.innerHTML = imgs.length > 0 ? `<img src="${imgs[0]}" class="w-full h-full object-cover">` : '';
+            imgContainer.innerHTML = '';
+            
+            // ล้าง Slider เก่าออกก่อนสร้างใหม่ถ้ามี
+            const oldSlider = modal.querySelector('.sub-slider');
+            if(oldSlider) oldSlider.remove();
 
-            // ตรวจสอบเงื่อนไขการสร้างปุ่มลิงก์ URL ภายนอกตามเงื่อนไขข้อที่ 2
-            let externalLinkBtnHtml = '';
-            if (item.Contact_Link && item.Contact_Link.trim() !== '') {
-                externalLinkBtnHtml = `
-                    <a href="${item.Contact_Link}" target="_blank" class="col-span-2 bg-blue-600 hover:bg-blue-700 text-white text-base font-bold py-3 rounded-xl text-center flex items-center justify-center gap-1 shadow-md transition-all">
-                        🌐 เปิดลิงก์เว็บไซต์รายละเอียดเพิ่มเติม
-                    </a>`;
+            if(imgs.length > 0) {
+                imgContainer.innerHTML = `<img src="${imgs[0]}" class="w-full h-full object-cover">`;
+                if (imgs.length > 1) {
+                    let subDiv = document.createElement('div');
+                    subDiv.className = "flex gap-1.5 overflow-x-auto py-1 scrollbar-hide w-full sub-slider";
+                    imgs.forEach((imgUrl, i) => {
+                        let sImg = document.createElement('img');
+                        sImg.className = "w-14 h-14 object-cover rounded-md cursor-pointer border-2 " + (i===0 ? "border-premium-primary":"border-transparent");
+                        sImg.src = imgUrl;
+                        sImg.onclick = () => {
+                            imgContainer.querySelector('img').src = imgUrl;
+                            subDiv.querySelectorAll('img').forEach(im => im.classList.replace('border-premium-primary', 'border-transparent'));
+                            sImg.classList.replace('border-transparent', 'border-premium-primary');
+                        };
+                        subDiv.appendChild(sImg);
+                    });
+                    imgContainer.after(subDiv);
+                }
+            } else {
+                imgContainer.innerHTML = '<div class="text-slate-400 font-bold text-sm">ไม่มีรูปภาพประกอบ</div>';
+            }
+            
+            const actions = document.getElementById('actionButtons');
+            let lineLink = item.Contact_Line ? (item.Contact_Line.startsWith('http') ? item.Contact_Line : `https://line.me/ti/p/~${item.Contact_Line}`) : '#';
+            
+            let contactLinkHtml = '';
+            if (item.Contact_Link) {
+                contactLinkHtml = `<a href="${item.Contact_Link}" target="_blank" class="col-span-2 bg-blue-50 hover:bg-blue-100 text-blue-700 text-sm font-bold py-2.5 rounded-xl text-center flex items-center justify-center gap-1 border border-blue-200 transition-all">🌐 ลิงก์รายละเอียดเพิ่มเติมภายนอก</a>`;
             }
 
-            const actions = document.getElementById('actionButtons');
             actions.innerHTML = `
-                <a href="https://line.me/ti/p/~${item.Contact_Line}" target="_blank" class="bg-emerald-600 text-white text-base font-bold py-3 rounded-xl text-center flex items-center justify-center gap-1 shadow-md">💬 ทักไลน์</a>
-                <a href="tel:${item.Contact_Tel}" class="bg-premium-primary text-white text-base font-bold py-3 rounded-xl text-center flex items-center justify-center gap-1 shadow-md">📞 โทรติดต่อ</a>
-                ${externalLinkBtnHtml}
+                <a href="${lineLink}" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white text-base font-bold py-3 rounded-xl text-center flex items-center justify-center gap-1 shadow-md transition-all">💬 ทักไลน์</a>
+                <a href="tel:${item.Contact_Tel}" class="bg-premium-primary hover:bg-purple-800 text-white text-base font-bold py-3 rounded-xl text-center flex items-center justify-center gap-1 shadow-md transition-all">📞 โทรติดต่อ</a>
+                ${contactLinkHtml}
                 <button onclick="sharePost('${item.tab || currentCategory}', '${item.rowId}', '${item.Title.replace(/'/g, "\\'")}')" class="col-span-2 bg-purple-100 hover:bg-purple-200 text-premium-primary font-bold py-3 rounded-xl text-center flex items-center justify-center gap-1 mt-1 transition-all">🔗 แชร์ประกาศนี้ให้เพื่อน</button>
             `;
-
-            // เงื่อนไขสิทธิ์: ผู้สร้างประกาศตัวจริง หรือ ผู้ดูแลระบบ (Admin) จะเห็นเมนูควบคุมแก้ไขและลบตามข้อ 1
+            
             if (userSession && (userSession.name === item.Owner_Name || userSession.isAdmin)) {
-                // ปุ่มกดแก้ไขประกาศ
                 const editBtn = document.createElement('button');
                 editBtn.className = "col-span-2 mt-2 bg-amber-100 hover:bg-amber-200 text-amber-800 text-base font-bold py-2.5 rounded-xl border border-amber-300 shadow-sm transition-all";
                 editBtn.innerText = "✏️ แก้ไขข้อมูล / เปลี่ยนแปลง Status ประกาศ";
-                editBtn.onclick = () => { openEditPostMode(item); };
+                editBtn.onclick = () => { closeDetailModal(); openEditPostMode(item); };
                 actions.appendChild(editBtn);
-
-                // ปุ่มกดลบประกาศ
+                
                 const deleteBtn = document.createElement('button');
                 deleteBtn.className = "col-span-2 mt-1 bg-red-100 hover:bg-red-200 text-red-600 text-base font-bold py-2.5 rounded-xl border border-red-200 shadow-sm transition-all";
-                deleteBtn.innerText = "🗑️ ลบประกาศนี้ออกระบบโดยเด็ดขาด";
+                deleteBtn.innerText = "🗑️ ลบประกาศนี้ออกจากระบบเด็ดขาด";
                 deleteBtn.onclick = () => deletePost(item.tab || currentCategory, item.rowId);
                 actions.appendChild(deleteBtn);
             }
-
+            
             modal.classList.remove('hidden');
-            setTimeout(() => { modal.classList.remove('opacity-0'); inner.classList.remove('translate-y-full'); }, 5);
-        }
-
-        // ฟังก์ชันในการเข้าสู่สภาวะแก้ไขฟอร์มประกาศ (Edit Mode)
-        function openEditPostMode(item) {
-            editingItem = item;
-            closeDetailModal();
-            navigateTo('post');
-            
-            document.getElementById('postViewTitle').innerText = "✏️ แก้ไขและตั้งค่าประกาศของคุณ";
-            document.getElementById('submitBtn').innerText = "บันทึกการอัปเดตประกาศ";
-            document.getElementById('cancelEditBtn').classList.remove('hidden');
-
-            document.getElementById('formTab').value = item.tab || "Properties";
-            document.getElementById('formTab').disabled = true; // ล็อกหมวดหมู่ไม่ให้เปลี่ยนตอนแก้ไข ป้องกันโครงสร้างเพี้ยน
-
-            adjustFormFields(); // สั่งเรนเดอร์โครงสร้าง input รวมถึงช่องเลือกสถานะใหม่
-            
-            document.getElementById('formTitle').value = item.Title || "";
-            document.getElementById('formPropType').value = item.Property_Type || "";
-            document.getElementById('formLocation').value = item.Location || "";
-            document.getElementById('formPrice').value = item.Price || "";
-            if(document.getElementById('formPostType')) document.getElementById('formPostType').value = item.Post_Type || "ขาย";
-            if(document.getElementById('formStatus')) document.getElementById('formStatus').value = item.Status || "Active";
-            if(document.getElementById('formLink')) document.getElementById('formLink').value = item.Contact_Link || "";
-            
-            document.getElementById('formDetails').value = item.Details || "";
-            document.getElementById('formLine').value = item.Contact_Line || "";
-            document.getElementById('formTel').value = item.Contact_Tel || "";
-
-            const previewBox = document.getElementById('imagePreviewContainer');
-            previewBox.innerHTML = '';
-            if (item.Images) {
-                item.Images.split(',').forEach(url => {
-                    const div = document.createElement('div');
-                    div.className = "flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden border-2 border-purple-300 relative opacity-70";
-                    div.innerHTML = `<img src="${url}" class="w-full h-full object-cover"><span class="absolute bottom-0 left-0 right-0 bg-black/60 text-[10px] text-white text-center">รูปเดิม</span>`;
-                    previewBox.appendChild(div);
-                });
-            }
-        }
-
-        function cancelEditMode() {
-            editingItem = null;
-            document.getElementById('formTab').disabled = false;
-            document.getElementById('postViewTitle').innerText = "✨ สร้างประกาศใหม่ของคุณ";
-            document.getElementById('submitBtn').innerText = "ยืนยันส่งประกาศ";
-            document.getElementById('cancelEditBtn').classList.add('hidden');
-            document.getElementById('listingForm').reset();
-            document.getElementById('imagePreviewContainer').innerHTML = '';
-            uploadedBase64Images = [];
-            adjustFormFields();
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                if(inner) inner.classList.remove('translate-y-full');
+            }, 5);
         }
 
         function closeDetailModal() {
             const modal = document.getElementById('detailModal');
             modal.classList.add('opacity-0');
-            modal.querySelector('div').classList.add('translate-y-full');
-            setTimeout(() => modal.classList.add('hidden'), 300);
+            const inner = modal.querySelector('.bg-white');
+            if(inner) inner.classList.add('translate-y-full');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                const sub = modal.querySelector('.sub-slider');
+                if(sub) sub.remove();
+            }, 300);
             window.history.replaceState({}, document.title, window.location.pathname);
         }
 
         function sharePost(tab, rowId, title) {
             const shareUrl = `${window.location.origin}${window.location.pathname}?tab=${tab}&rowId=${rowId}`;
             if (navigator.share) {
-                navigator.share({ title: 'Khom Property | ' + title, text: `ดูประกาศ: "${title}" ได้ที่นี่ครับ!`, url: shareUrl }).catch(() => {});
+                navigator.share({ title: 'Khom Property | ' + title, text: `ดูประกาศ: "${title}" ได้ที่นี่ครับ!`, url: shareUrl });
             } else {
                 navigator.clipboard.writeText(shareUrl);
-                alert("📋 คัดลอกลิงก์เรียบร้อยแล้ว! นำลิงก์ไปกดวางส่งต่อให้เพื่อนใน LINE ได้เลยครับ");
+                alert("📋 คัดลอกลิงก์สำหรับแชร์ไปยังคลิปบอร์ดแล้ว!");
             }
-        }
-
-        async function deletePost(tab, rowId) {
-            if(!confirm("คุณต้องการลบประกาศนี้ใช่หรือไม่? บัญชีผู้ใช้ทั่วไปจะไม่สามารถเห็นได้อีกต่อไป")) return;
-            try {
-                await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "deletePost", tab: tab, rowId: rowId }) });
-                alert("ลบรายการประกาศสำเร็จ!");
-                closeDetailModal();
-                loadCategoryData();
-                if(!document.getElementById('view-profile').classList.contains('hidden')) renderMyPosts();
-            } catch(e) { alert("เกิดข้อผิดพลาดในการลบข้อมูล"); }
-        }
-
-        function triggerSearch() {
-            const keyword = document.getElementById('searchInput').value.toLowerCase();
-            const filtered = allDataCache.filter(item => 
-                (String(item.Title) + String(item.Details) + String(item.Location)).toLowerCase().includes(keyword)
-            );
-            displayCards(filtered, 'cardsContainer');
-        }
-
-        function renderMyPosts() {
-            const container = document.getElementById('myCardsContainer');
-            container.innerHTML = '<p class="text-base text-center text-slate-500 py-4 font-bold">🔮 กำลังรวบรวมประกาศของคุณ...</p>';
-            
-            let myPosts = [];
-            if(userSession.isAdmin) {
-                // ถ้าเป็น Admin ให้มองเห็นลิสต์ทั้งหมดของทุกคนตรงโปรไฟล์เพื่อกดไล่ตรวจสอบแก้ไขสถานะได้สะดวกขึ้นตามเงื่อนไขข้อ 1
-                myPosts = allDataCache;
-            } else {
-                myPosts = allDataCache.filter(item => item.Owner_Name === userSession.name);
-            }
-            displayCards(myPosts, 'myCardsContainer');
-        }
-
-        function openAuthModal() { document.getElementById('authModal').classList.remove('hidden'); }
-        function closeAuthModal() { document.getElementById('authModal').classList.add('hidden'); pendingView = null; }
-        function toggleAuthMode() {
-            authMode = authMode === 'login' ? 'register' : 'login';
-            document.getElementById('authTitle').innerText = authMode === 'login' ? 'เข้าสู่ระบบสมาชิก' : 'สมัครสมาชิกใหม่';
-            document.getElementById('authToggleText').innerText = authMode === 'login' ? 'ยังไม่มีบัญชี? สมัครใช้งานฟรีตรงนี้' : 'มีบัญชีสมาชิกอยู่แล้ว? เข้าสู่ระบบที่นี่';
-        }
-
-        async function processAuth() {
-            const username = document.getElementById('authUsername').value.trim();
-            const password = document.getElementById('authPassword').value.trim();
-
-            if(!username || !password) return alert("กรุณากรอกชื่อและรหัสผ่านให้ครบถ้วนครับ");
-
-            const payload = { action: authMode, username: username, password: password };
-            try {
-                const response = await fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) });
-                const res = await response.json();
-                if(res.error) return alert(res.error);
-
-                if (authMode === 'login') {
-                    userSession = { name: res.name, isAdmin: res.isAdmin || false };
-                    localStorage.setItem('khom_user', JSON.stringify(userSession));
-                    updateUserUI();
-                    closeAuthModal();
-                    if(pendingView) navigateTo(pendingView);
-                } else {
-                    alert("🎉 สมัครสมาชิกเรียบร้อยแล้ว! สามารถกรอกชื่อเพื่อเข้าสู่ระบบได้เลยทันที");
-                    toggleAuthMode();
-                }
-            } catch(e) { alert("ระบบเชื่อมต่อขัดข้อง"); }
-        }
-
-        function logout() {
-            localStorage.removeItem('khom_user');
-            userSession = null;
-            updateUserUI();
-            navigateTo('browse');
-        }
-
-        function openAddNewsModal() { document.getElementById('newsModal').classList.remove('hidden'); }
-        function closeNewsModal() { document.getElementById('newsModal').classList.add('hidden'); }
-        async function submitNews() {
-            const title = document.getElementById('newsTitleInput').value;
-            const content = document.getElementById('newsContentInput').value;
-            if(!title || !content) return alert("กรุณากรอกข้อมูลให้ครบถ้วน");
-
-            try {
-                await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "addNews", title: title, content: content }) });
-                alert("บันทึกและเปิดประกาศข่าวสารเรียบร้อย!");
-                closeNewsModal();
-                fetchNews();
-            } catch(e) {}
-        }
-
-        function renderFilters() {
-            const box = document.getElementById('filterOptions');
-            box.innerHTML = `<select id="fType" onchange="filterGrid()" class="bg-slate-50 border-2 border-slate-200 text-base font-bold rounded-xl px-3 py-2.5 focus:outline-none focus:border-premium-primary"><option value="">🏠 ทุกประเภท</option><option value="คอนโด">คอนโด</option><option value="บ้านเดี่ยว">บ้านเดี่ยว</option><option value="ที่ดิน">ที่ดิน</option></select>
-                             <select id="fAction" onchange="filterGrid()" class="bg-slate-50 border-2 border-slate-200 text-base font-bold rounded-xl px-3 py-2.5 focus:outline-none focus:border-premium-primary"><option value="">💰 ซื้อ/ขายทั้งหมด</option><option value="ขาย">ขาย</option><option value="ให้เช่า">ให้เช่า</option></select>`;
-        }
-        function filterGrid() {
-            const type = document.getElementById('fType').value;
-            const action = document.getElementById('fAction').value;
-            let filtered = allDataCache.filter(item => {
-                let mType = type ? item.Property_Type === type : true;
-                let mAct = action ? String(item.Post_Type).includes(action) : true;
-                return mType && mAct;
-            });
-            displayCards(filtered, 'cardsContainer');
         }
 
         function adjustFormFields() {
             const tab = document.getElementById('formTab').value;
-            let extraSelect = '';
+            const container = document.getElementById('dynamicFields');
+            let html = '';
+            
+            if (editingItem) {
+                html += `
+                <div>
+                    <label class="block text-sm font-bold text-slate-500 mb-1.5">สถานะประกาศ</label>
+                    <select id="formStatus" class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-3 py-3 text-base focus:outline-none focus:border-premium-primary">
+                        <option value="Active" ${editingItem.Status === 'Active' ? 'selected' : ''}>เปิดใช้งานปกติ (Active)</option>
+                        <option value="Inactive" ${editingItem.Status === 'Inactive' ? 'selected' : ''}>ปิดประกาศชั่วคราว (Inactive)</option>
+                        <option value="Sold" ${editingItem.Status === 'Sold' ? 'selected' : ''}>ขาย/เช่าแล้ว (Sold/Rented)</option>
+                    </select>
+                </div>`;
+            }
+
+            html += `
+            <div>
+                <label class="block text-sm font-bold text-slate-500 mb-1.5">หัวข้อประกาศ / ชื่อรายการ</label>
+                <input type="text" id="formTitle" required placeholder="กรอกชื่อหัวข้อประกาศสั้นๆ กระชับได้ใจความ" class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-3 py-3 text-base focus:outline-none focus:border-premium-primary">
+            </div>`;
+
+            let typeOptions = '';
+            let postOptions = '';
             
             if (tab === 'Properties') {
-                extraSelect = `
-                    <div>
-                        <label class="block text-sm font-bold text-slate-500 mb-1">เลือกประเภทการประกาศ</label>
-                        <select id="formPostType" class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-4 py-3 text-base">
-                            <option value="ขาย">ขาย</option>
-                            <option value="ให้เช่า">ให้เช่า</option>
-                        </select>
-                    </div>`;
-            } else {
-                extraSelect = `<input type="hidden" id="formPostType" value="ทั่วไป">`;
+                typeOptions = `<option value="คอนโด">คอนโด</option><option value="บ้านเดี่ยว">บ้านเดี่ยว</option><option value="ทาวน์โฮม">ทาวน์โฮม</option><option value="ที่ดิน">ที่ดิน</option><option value="อาคารพาณิชย์">อาคารพาณิชย์</option>`;
+                postOptions = `<option value="ขาย">ขาย</option><option value="ให้เช่า">ให้เช่า</option><option value="ขายดาวน์">ขายดาวน์</option>`;
+            } else if (tab === 'Demands') {
+                typeOptions = `<option value="หาซื้อ">หาซื้อ</option><option value="หาเช่า">หาเช่า</option>`;
+                postOptions = `<option value="ด่วน">ด่วน</option><option value="ทั่วไป">ทั่วไป</option>`;
+            } else if (tab === 'Services') {
+                typeOptions = `<option value="ช่างไฟ">ช่างไฟ</option><option value="ช่างประปา">ช่างประปา</option><option value="ช่างแอร์">ช่างแอร์</option><option value="ผู้รับเหมา">ผู้รับเหมา</option><option value="ทำความสะอาด">ทำความสะอาด</option><option value="บริการอื่นๆ">บริการอื่นๆ</option>`;
+                postOptions = `<option value="รับงานทั่วไป">รับงานทั่วไป</option><option value="บริษัท/ร้านค้า">บริษัท/ร้านค้า</option>`;
+            } else if (tab === 'Marketplace') {
+                typeOptions = `<option value="เฟอร์นิเจอร์">เฟอร์นิเจอร์</option><option value="เครื่องใช้ไฟฟ้า">เครื่องใช้ไฟฟ้า</option><option value="ของตกแต่ง">ของตกแต่ง</option><option value="ต้นไม้/สวน">ต้นไม้/สวน</option><option value="อื่นๆ">อื่นๆ</option>`;
+                postOptions = `<option value="มือหนึ่ง">มือหนึ่ง</option><option value="มือสอง">มือสอง</option>`;
             }
 
-            // ถ้าอยู่ใน Edit Mode ให้แสดง Dropdown จัดการปรับสถานะประกาศเพิ่มขึ้นมาด้านบนสุด
-            let statusSelectHtml = '';
+            html += `
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-sm font-bold text-slate-500 mb-1.5">ประเภท</label>
+                    <select id="formPropType" class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-3 py-3 text-base focus:outline-none focus:border-premium-primary">
+                        ${typeOptions}
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-500 mb-1.5">รูปแบบดีล</label>
+                    <select id="formPostType" class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-3 py-3 text-base focus:outline-none focus:border-premium-primary">
+                        ${postOptions}
+                    </select>
+                </div>
+            </div>`;
+
+            html += `
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-sm font-bold text-slate-500 mb-1.5">ทำเล / ที่ตั้ง</label>
+                    <input type="text" id="formLocation" required placeholder="เช่น ข้าง ม.ธรรมศาสตร์ รังสิต" class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-3 py-3 text-base focus:outline-none focus:border-premium-primary">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-500 mb-1.5">ราคา (บาท)</label>
+                    <input type="text" id="formPrice" required placeholder="กรอกตัวเลขราคาหรือข้อความ" class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-3 py-3 text-base focus:outline-none focus:border-premium-primary">
+                </div>
+            </div>`;
+
+            html += `
+            <div>
+                <label class="block text-sm font-bold text-slate-500 mb-1.5">รายละเอียดประกาศเพิ่มเติม</label>
+                <textarea id="formDetails" rows="4" required placeholder="ระบุข้อมูลสำคัญ รายละเอียด ขนาดพื้นที่ หรือโปรโมชั่นเสริม..." class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-3 py-3 text-base focus:outline-none focus:border-premium-primary"></textarea>
+            </div>
+            <div>
+                <label class="block text-sm font-bold text-slate-500 mb-1.5">ลิงก์ภายนอกเสริม (Contact Link ถ้ามี)</label>
+                <input type="url" id="formLink" placeholder="https://example.com/your-page" class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-3 py-3 text-base focus:outline-none focus:border-premium-primary">
+            </div>`;
+
+            container.innerHTML = html;
+
             if (editingItem) {
-                statusSelectHtml = `
-                    <div class="bg-amber-50 p-3 rounded-xl border border-amber-200">
-                        <label class="block text-sm font-bold text-amber-800 mb-1">⚙️ ปรับสถานะความเคลื่อนไหวประกาศ (Status)</label>
-                        <select id="formStatus" class="w-full bg-white border-2 border-amber-400 text-amber-900 font-bold rounded-xl px-3 py-2 text-base focus:outline-none">
-                            <option value="Active">🟢 เปิดประกาศปกติ (Active)</option>
-                            <option value="Inactive">🟡 ปิดประกาศชั่วคราว (Inactive)</option>
-                            <option value="Sold">🔴 ขายแล้ว / ให้เช่าแล้ว (Sold)</option>
-                        </select>
-                    </div>`;
+                document.getElementById('formTitle').value = editingItem.Title || '';
+                document.getElementById('formPropType').value = editingItem.Property_Type || '';
+                document.getElementById('formPostType').value = editingItem.Post_Type || '';
+                document.getElementById('formLocation').value = editingItem.Location || '';
+                document.getElementById('formPrice').value = editingItem.Price || '';
+                document.getElementById('formDetails').value = editingItem.Details || '';
+                document.getElementById('formLink').value = editingItem.Contact_Link || '';
             }
-
-            document.getElementById('dynamicFields').innerHTML = `
-                ${statusSelectHtml}
-                <div>
-                    <label class="block text-sm font-bold text-slate-500 mb-1">หัวข้อประกาศ</label>
-                    <input type="text" id="formTitle" placeholder="เช่น ขายด่วนบ้านเดี่ยว 2 ชั้นสภาพนางฟ้า" required class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-4 py-3 text-base">
-                </div>
-                <div class="grid grid-cols-2 gap-2">
-                    <div>
-                        <label class="block text-sm font-bold text-slate-500 mb-1">ประเภทสิ่งปลูกสร้าง</label>
-                        <input type="text" id="formPropType" placeholder="เช่น บ้านเดี่ยว / คอนโด / ที่ดิน" required class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-4 py-3 text-base">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold text-slate-500 mb-1">ราคา (บาท)</label>
-                        <input type="number" id="formPrice" placeholder="ระบุตัวเลขเฉพาะราคา" required class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-4 py-3 text-base">
-                    </div>
-                </div>
-                ${extraSelect}
-                <div>
-                    <label class="block text-sm font-bold text-slate-500 mb-1">ทำเล / ที่ตั้ง</label>
-                    <input type="text" id="formLocation" placeholder="เช่น อารีย์ / นนทบุรี / เชียงใหม่" required class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-4 py-3 text-base">
-                </div>
-                <div>
-                    <label class="block text-sm font-bold text-slate-500 mb-1">🔗 ลิงก์รายละเอียดเว็บไซต์ภายนอกเพิ่ม (ไม่บังคับใส่)</label>
-                    <input type="url" id="formLink" placeholder="เช่น https://www.ddproperty.com/ประกาศของคุณ" class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-4 py-3 text-base focus:border-premium-primary focus:outline-none">
-                </div>
-                <div>
-                    <label class="block text-sm font-bold text-slate-500 mb-1">รายละเอียดแบบอักษรขนาดใหญ่</label>
-                    <textarea id="formDetails" rows="5" placeholder="กรอกรายละเอียดอธิบายข้อมูลเพิ่มเติมตรงนี้..." required class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-4 py-3 text-base"></textarea>
-                </div>
-            `;
         }
 
         function previewImages() {
             const files = document.getElementById('formImages').files;
             const container = document.getElementById('imagePreviewContainer');
-            container.innerHTML = ''; 
+            container.innerHTML = '';
             uploadedBase64Images = [];
+            
+            if(files.length === 0) return;
+            
             Array.from(files).forEach(file => {
                 const reader = new FileReader();
                 reader.onload = function(e) {
@@ -700,22 +618,22 @@
                     img.src = e.target.result;
                     img.onload = function() {
                         const canvas = document.createElement('canvas');
-                        const ctx = canvas.getContext('2d');
+                        const MAX_WIDTH = 800;
                         let width = img.width;
                         let height = img.height;
-                        const max_size = 1024;
-                        if (width > height) {
-                            if (width > max_size) { height *= max_size / width; width = max_size; }
-                        } else {
-                            if (height > max_size) { width *= max_size / height; height = max_size; }
+                        
+                        if (width > MAX_WIDTH) {
+                            height *= MAX_WIDTH / width;
+                            width = MAX_WIDTH;
                         }
                         canvas.width = width;
                         canvas.height = height;
+                        const ctx = canvas.getContext('2d');
                         ctx.drawImage(img, 0, 0, width, height);
-                        
                         const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
+                        
                         uploadedBase64Images.push({ base64: compressedBase64 });
-
+                        
                         const div = document.createElement('div');
                         div.className = "flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden border-2 border-purple-300 shadow-sm animate-card";
                         div.innerHTML = `<img src="${compressedBase64}" class="w-full h-full object-cover">`;
@@ -730,9 +648,9 @@
             event.preventDefault();
             const btn = document.getElementById('submitBtn');
             const originalText = btn.innerText;
-            btn.innerText = "⏳ กำลังบันทึกและส่งข้อมูลเข้าระบบ..."; 
+            btn.innerText = "⏳ กำลังบันทึกและส่งข้อมูลเข้าระบบ...";
             btn.disabled = true;
-
+            
             const payload = {
                 action: editingItem ? "updatePost" : "createPost",
                 rowId: editingItem ? editingItem.rowId : null,
@@ -746,15 +664,14 @@
                 Details: document.getElementById('formDetails').value,
                 Contact_Line: document.getElementById('formLine').value,
                 Contact_Tel: document.getElementById('formTel').value,
-                Contact_Link: document.getElementById('formLink').value.trim(), // เก็บคอมเมนต์ลิงก์เข้าแถวข้อมูล
+                Contact_Link: document.getElementById('formLink').value.trim(),
                 images: uploadedBase64Images,
                 Owner_Name: editingItem ? editingItem.Owner_Name : userSession.name
             };
-
+            
             try {
                 const response = await fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) });
                 const res = await response.json();
-                
                 if (res.error) {
                     alert("❌ เกิดข้อผิดพลาดจากระบบหลังบ้าน: " + res.error);
                 } else if (res.success) {
@@ -762,11 +679,191 @@
                     cancelEditMode();
                     navigateTo('browse');
                 }
-            } catch(e) { 
+            } catch(e) {
                 alert("❌ ระบบการเชื่อมต่อขัดข้อง กรุณาลองใหม่อีกครั้ง");
-            } finally { 
+            } finally {
                 btn.innerText = originalText;
-                btn.disabled = false; 
+                btn.disabled = false;
+            }
+        }
+
+        function openEditPostMode(item) {
+            editingItem = item;
+            document.getElementById('postViewTitle').innerText = "✏️ แก้ไขประกาศของคุณ";
+            document.getElementById('formTab').value = item.tab || currentCategory;
+            document.getElementById('formTab').disabled = true; 
+            document.getElementById('cancelEditBtn').classList.remove('hidden');
+            document.getElementById('submitBtn').innerText = "บันทึกการแก้ไข";
+            adjustFormFields();
+            
+            document.querySelectorAll('.tab-view').forEach(el => el.classList.add('hidden'));
+            document.getElementById('view-post').classList.remove('hidden');
+            document.querySelectorAll('nav button').forEach(btn => btn.classList.replace('text-premium-primary', 'text-slate-400'));
+            document.getElementById('nav-post').classList.replace('text-slate-400', 'text-premium-primary');
+        }
+
+        function cancelEditMode() {
+            editingItem = null;
+            document.getElementById('postViewTitle').innerText = "✨ สร้างประกาศใหม่ของคุณ";
+            document.getElementById('formTab').disabled = false;
+            document.getElementById('cancelEditBtn').classList.add('hidden');
+            document.getElementById('submitBtn').innerText = "ยืนยันส่งประกาศ";
+            document.getElementById('listingForm').reset();
+            document.getElementById('imagePreviewContainer').innerHTML = '';
+            uploadedBase64Images = [];
+            adjustFormFields();
+        }
+
+        async function renderMyPosts() {
+            const container = document.getElementById('myCardsContainer');
+            container.innerHTML = '<p class="text-center text-slate-400 py-4">⏳ กำลังดึงประกาศของคุณ...</p>';
+            
+            try {
+                const categories = ['Properties', 'Demands', 'Services', 'Marketplace'];
+                let myPosts = [];
+                
+                for (const cat of categories) {
+                    const response = await fetch(`${API_URL}?tab=${cat}`);
+                    const data = await response.json();
+                    const filtered = data.filter(x => userSession.isAdmin || x.Owner_Name === userSession.name);
+                    filtered.forEach(x => x.tab = cat);
+                    myPosts = myPosts.concat(filtered);
+                }
+                
+                container.innerHTML = myPosts.length === 0 ? '<p class="text-center text-slate-400 py-6">📭 คุณยังไม่มีประกาศในระบบขณะนี้</p>' : '';
+                
+                myPosts.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = "bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex gap-3 cursor-pointer relative hover:shadow-md animate-card";
+                    card.onclick = () => openDetailModal(item);
+                    
+                    const imgs = item.Images ? item.Images.split(',') : [];
+                    const imgHtml = imgs.length > 0 ? `<img src="${imgs[0]}" class="w-20 h-20 object-cover rounded-xl bg-slate-50 flex-shrink-0">` : `<div class="w-20 h-20 bg-slate-100 rounded-xl flex items-center justify-center text-slate-400 text-xs font-bold">ไม่มีรูป</div>`;
+                    
+                    let statusBadge = '';
+                    if(item.Status === 'Inactive') statusBadge = '<span class="bg-amber-100 text-amber-800 text-[11px] font-bold px-1.5 py-0.5 rounded">ปิดชั่วคราว</span>';
+                    if(item.Status === 'Sold') statusBadge = '<span class="bg-red-100 text-red-800 text-[11px] font-bold px-1.5 py-0.5 rounded">ขาย/เช่าแล้ว</span>';
+                    
+                    card.innerHTML = `
+                        ${imgHtml}
+                        <div class="flex flex-col justify-between flex-grow min-w-0">
+                            <div>
+                                <div class="flex items-center gap-1.5 mb-0.5 flex-wrap">
+                                    <span class="bg-slate-100 text-slate-600 text-[11px] font-bold px-1.5 py-0.5 rounded">${item.tab}</span>
+                                    ${statusBadge}
+                                </div>
+                                <h4 class="font-bold text-sm text-slate-900 line-clamp-1 leading-tight">${item.Title}</h4>
+                                <p class="text-xs text-slate-400 mt-0.5">💰 ราคา: ${item.Price} บาท</p>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            } catch(e) {
+                container.innerHTML = '<p class="text-center text-red-500 py-4">❌ เกิดข้อผิดพลาดในการโหลดรายการ</p>';
+            }
+        }
+
+        async function deletePost(tab, rowId) {
+            if(!confirm("⚠️ คุณแน่ใจหรือไม่ว่าต้องการลบประกาศนี้ออกจากระบบโดยเด็ดขาด? การกระทำนี้ไม่สามารถย้อนคืนได้และรูปภาพในคลังจะถูกลบออกด้วย")) return;
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: "deletePost", tab: tab, rowId: rowId })
+                });
+                const res = await response.json();
+                if(res.success) {
+                    alert("🗑️ ลบประกาศออกจากระบบเรียบร้อยแล้ว!");
+                    closeDetailModal();
+                    if(document.getElementById('view-profile').classList.contains('hidden')) {
+                        loadCategoryData();
+                    } else {
+                        renderMyPosts();
+                    }
+                } else {
+                    alert("เกิดข้อผิดพลาด: " + res.error);
+                }
+            } catch(e) {
+                alert("การลบประกาศขัดข้อง");
+            }
+        }
+
+        function updateUserUI() {
+            const info = document.getElementById('userInfo');
+            const profileName = document.getElementById('profileName');
+            const adminNewsBtn = document.getElementById('adminNewsBtn');
+            if(userSession) {
+                if(info) info.innerText = userSession.isAdmin ? "⚡ ผู้ดูแลระบบ (Admin)" : `👥 สมาชิก: ${userSession.name}`;
+                if(profileName) profileName.innerText = userSession.name;
+                if(userSession.isAdmin && adminNewsBtn) adminNewsBtn.classList.remove('hidden');
+            } else {
+                if(info) info.innerText = "👥 แขกรับเชิญ";
+                if(profileName) profileName.innerText = "-";
+                if(adminNewsBtn) adminNewsBtn.classList.add('hidden');
+            }
+        }
+
+        function openAuthModal() { document.getElementById('authModal').classList.remove('hidden'); }
+        function closeAuthModal() { document.getElementById('authModal').classList.add('hidden'); pendingView = null; }
+        
+        function toggleAuthMode() {
+            authMode = authMode === 'login' ? 'register' : 'login';
+            document.getElementById('authTitle').innerText = authMode === 'login' ? 'เข้าสู่ระบบสมาชิก' : 'สมัครสมาชิกใหม่';
+            document.getElementById('authToggleText').innerText = authMode === 'login' ? 'ยังไม่มีบัญชี? สมัครใช้งานฟรีตรงนี้' : 'มีบัญชีสมาชิกอยู่แล้ว? เข้าสู่ระบบที่นี่';
+            document.getElementById('authSubmitBtn').innerText = authMode === 'login' ? 'ตกลง' : 'ลงทะเบียน';
+        }
+        
+        async function processAuth() {
+            const u = document.getElementById('authUsername').value.trim();
+            const p = document.getElementById('authPassword').value.trim();
+            if(!u || !p) return alert("กรุณากรอกข้อมูลให้ครบถ้วน");
+            
+            try {
+                const res = await fetch(API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: authMode, username: u, password: p })
+                }).then(r => r.json());
+                
+                if(res.error) return alert(res.error);
+                if(authMode === 'login') {
+                    userSession = { name: res.name, isAdmin: res.isAdmin || false };
+                    localStorage.setItem('khom_user', JSON.stringify(userSession));
+                    updateUserUI();
+                    closeAuthModal();
+                    if(pendingView) {
+                        navigateTo(pendingView);
+                        pendingView = null;
+                    }
+                } else {
+                    alert("🎉 สมัครสมาชิกเรียบร้อย! กรอกข้อมูลเข้าสู่ระบบได้เลยครับ");
+                    toggleAuthMode();
+                }
+            } catch(e) {
+                alert("ระบบขัดข้อง");
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('khom_user');
+            userSession = null;
+            updateUserUI();
+            navigateTo('browse');
+        }
+
+        function openAddNewsModal() { document.getElementById('newsModal').classList.remove('hidden'); }
+        function closeNewsModal() { document.getElementById('newsModal').classList.add('hidden'); }
+        
+        async function submitNews() {
+            const title = document.getElementById('newsTitleInput').value;
+            const content = document.getElementById('newsContentInput').value;
+            if(!title || !content) return alert("กรุณากรอกข้อมูลให้ครบถ้วน");
+            try {
+                await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "addNews", title: title, content: content }) });
+                alert("บันทึกข่าวสารเรียบร้อย!");
+                closeNewsModal();
+                fetchNews();
+            } catch(e) {
+                alert("บันทึกข่าวสารล้มเหลว");
             }
         }
     </script>
