@@ -173,7 +173,7 @@
     </nav>
 
     <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbxP36V1bOTffcCYSJOS6S1lDWPhoPz0o4K31QIrOWFJAhui3YZjj1TkcxAwefqpmyEs6Q/exec"; 
+        const API_URL = "https://script.google.com/macros/s/AKfycbwh96Y5e9-9-QEu-0UM80zndigRVETlcPHDG7u6YQmYpdfNWziJ9V3L2-7KD1A_D3wVAQ/exec"; 
 
         let userSession = JSON.parse(localStorage.getItem('khom_user')) || null;
         let currentCategory = 'Properties';
@@ -187,6 +187,7 @@
         window.onload = async function() {
             updateUserUI();
             fetchNews();
+            adjustFormFields(); // เรียกใช้ฟังก์ชันทันทีเพื่อให้ฟิลด์สร้างข้อมูลตั้งแต่เปิดหน้าจอ
             setInterval(rotateNewsBanner, 20000);
 
             const urlParams = new URLSearchParams(window.location.search);
@@ -302,7 +303,7 @@
                 allDataCache = await response.json();
                 displayCards(allDataCache);
             } catch(e) {
-                loading.innerHTML = '<p class="text-base font-bold text-red-500">❌ เกิดข้อผิดพลาดในการเชื่อมโยงข้อมูลฐานข้อมูล</p>';
+                loading.innerHTML = '<p class="text-base font-bold text-red-500">❌ เกิดข้อผิดพลาดในการเชื่อมโยงข้อมูลหลังบ้าน</p>';
             }
         }
 
@@ -352,7 +353,7 @@
             document.getElementById('detailText').innerText = item.Details;
             
             const badges = document.getElementById('detailBadges');
-            badges.innerHTML = `<span class="bg-premium-primary text-white text-xs font-bold px-3 py-1 rounded-full">${item.Post_Type || 'ประกาศ'}</span>`;
+            badges.innerHTML = `<span class="bg-premium-primary text-white text-xs font-bold px-3 py-1 rounded-full">${item.Post_Type || 'ทั่วไป'}</span>`;
             
             const imgContainer = document.getElementById('detailImages');
             const imgs = item.Images ? item.Images.split(',') : [];
@@ -478,7 +479,7 @@
 
         function renderFilters() {
             const box = document.getElementById('filterOptions');
-            box.innerHTML = `<select id="fType" onchange="filterGrid()" class="bg-slate-50 border-2 border-slate-200 text-base font-bold rounded-xl px-3 py-2.5 focus:outline-none focus:border-premium-primary"><option value="">🏠 ทุกประเภท</option><option value="คอนโด">คอนโด</option><option value="บ้านเดี่ยว">บ้านเดี่ยว</option></select>
+            box.innerHTML = `<select id="fType" onchange="filterGrid()" class="bg-slate-50 border-2 border-slate-200 text-base font-bold rounded-xl px-3 py-2.5 focus:outline-none focus:border-premium-primary"><option value="">🏠 ทุกประเภท</option><option value="คอนโด">คอนโด</option><option value="บ้านเดี่ยว">บ้านเดี่ยว</option><option value="ที่ดิน">ที่ดิน</option></select>
                              <select id="fAction" onchange="filterGrid()" class="bg-slate-50 border-2 border-slate-200 text-base font-bold rounded-xl px-3 py-2.5 focus:outline-none focus:border-premium-primary"><option value="">💰 ซื้อ/ขายทั้งหมด</option><option value="ขาย">ขาย</option><option value="ให้เช่า">ให้เช่า</option></select>`;
         }
         function filterGrid() {
@@ -491,57 +492,137 @@
             });
             displayCards(filtered);
         }
+
+        // ปรับปรุงการเจนเนอเรตฟอร์มให้มีฟิลด์ครบครันตั้งแต่เปิดหน้าจอ
         function adjustFormFields() {
+            const tab = document.getElementById('formTab').value;
+            let extraSelect = '';
+            
+            if (tab === 'Properties') {
+                extraSelect = `
+                    <div>
+                        <label class="block text-sm font-bold text-slate-500 mb-1">เลือกประเภทการประกาศ</label>
+                        <select id="formPostType" class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-4 py-3 text-base">
+                            <option value="ขาย">ขาย</option>
+                            <option value="ให้เช่า">ให้เช่า</option>
+                        </select>
+                    </div>`;
+            } else {
+                extraSelect = `<input type="hidden" id="formPostType" value="ทั่วไป">`;
+            }
+
             document.getElementById('dynamicFields').innerHTML = `
-                <input type="text" id="formTitle" placeholder="หัวข้อประกาศอันใหญ่ (เช่น ขายด่วนบ้านเดี่ยว)" required class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-4 py-3 text-base">
-                <div class="grid grid-cols-2 gap-2">
-                    <input type="text" id="formPropType" placeholder="ประเภท (คอนโด / บ้าน)" required class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-4 py-3 text-base">
-                    <input type="number" id="formPrice" placeholder="ราคา (บาท)" required class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-4 py-3 text-base">
+                <div>
+                    <label class="block text-sm font-bold text-slate-500 mb-1">หัวข้อประกาศ</label>
+                    <input type="text" id="formTitle" placeholder="เช่น ขายด่วนบ้านเดี่ยว 2 ชั้นสภาพนางฟ้า" required class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-4 py-3 text-base">
                 </div>
-                <input type="text" id="formLocation" placeholder="ทำเลที่ตั้ง (เช่น อารีย์ / เชียงใหม่)" required class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-4 py-3 text-base">
-                <textarea id="formDetails" rows="4" placeholder="กรอกรายละเอียดตัวหนังสืออธิบายประกาศเพิ่มเติมตรงนี้..." required class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-4 py-3 text-base"></textarea>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block text-sm font-bold text-slate-500 mb-1">ประเภทสิ่งปลูกสร้าง</label>
+                        <input type="text" id="formPropType" placeholder="เช่น บ้านเดี่ยว / คอนโด / ที่ดิน" required class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-4 py-3 text-base">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-slate-500 mb-1">ราคา (บาท)</label>
+                        <input type="number" id="formPrice" placeholder="ระบุตัวเลขเฉพาะราคา" required class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-4 py-3 text-base">
+                    </div>
+                </div>
+                ${extraSelect}
+                <div>
+                    <label class="block text-sm font-bold text-slate-500 mb-1">ทำเล / ที่ตั้ง</label>
+                    <input type="text" id="formLocation" placeholder="เช่น อารีย์ / นนทบุรี / เชียงใหม่" required class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-4 py-3 text-base">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-500 mb-1">รายละเอียดแบบอักษรขนาดใหญ่</label>
+                    <textarea id="formDetails" rows="5" placeholder="กรอกรายละเอียดอธิบายข้อมูลเพิ่มเติมตรงนี้..." required class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-4 py-3 text-base"></textarea>
+                </div>
             `;
         }
+
+        // ระบบบีบอัดรูปภาพอัตโนมัติก่อนส่งหลังบ้าน ป้องกันระบบค้าง 100%
         function previewImages() {
             const files = document.getElementById('formImages').files;
             const container = document.getElementById('imagePreviewContainer');
-            container.innerHTML = ''; uploadedBase64Images = [];
+            container.innerHTML = ''; 
+            uploadedBase64Images = [];
+
             Array.from(files).forEach(file => {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    uploadedBase64Images.push({ base64: e.target.result });
-                    const div = document.createElement('div');
-                    div.className = "flex-shrink-0 w-16 h-16 rounded-xl overflow-hidden border-2 border-purple-200";
-                    div.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover">`;
-                    container.appendChild(div);
+                    const img = new Image();
+                    img.src = e.target.result;
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        
+                        // บีบขนาดสูงสุดให้ไม่เกิน 1024px ป้องกันโหลดช้า
+                        let width = img.width;
+                        let height = img.height;
+                        const max_size = 1024;
+                        
+                        if (width > height) {
+                            if (width > max_size) { height *= max_size / width; width = max_size; }
+                        } else {
+                            if (height > max_size) { width *= max_size / height; height = max_size; }
+                        }
+                        
+                        canvas.width = width;
+                        canvas.height = height;
+                        ctx.drawImage(img, 0, 0, width, height);
+                        
+                        // บีบอัดคุณภาพรูปเหลือ 70% (ภาพยังชัดแจ๋ว แต่ขนาดไฟล์เล็กลง 10 เท่าตัว)
+                        const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
+                        uploadedBase64Images.push({ base64: compressedBase64 });
+
+                        const div = document.createElement('div');
+                        div.className = "flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden border-2 border-purple-300 shadow-sm animate-card";
+                        div.innerHTML = `<img src="${compressedBase64}" class="w-full h-full object-cover">`;
+                        container.appendChild(div);
+                    };
                 };
                 reader.readAsDataURL(file);
             });
         }
+
         async function submitForm(event) {
             event.preventDefault();
             const btn = document.getElementById('submitBtn');
-            btn.innerText = "กำลังอัปโหลดและบันทึกข้อมูล..."; btn.disabled = true;
+            btn.innerText = "⏳ กำลังย่อภาพและบันทึกประกาศ..."; 
+            btn.disabled = true;
+
             const payload = {
                 tab: document.getElementById('formTab').value,
                 Title: document.getElementById('formTitle').value,
                 Property_Type: document.getElementById('formPropType').value,
                 Location: document.getElementById('formLocation').value,
                 Price: document.getElementById('formPrice').value,
-                Post_Type: document.getElementById('formTab').value === 'Properties' ? 'อสังหาฯ' : 'ทั่วไป',
+                Post_Type: document.getElementById('formPostType').value,
                 Details: document.getElementById('formDetails').value,
                 Contact_Line: document.getElementById('formLine').value,
                 Contact_Tel: document.getElementById('formTel').value,
                 images: uploadedBase64Images,
                 Owner_Name: userSession.name
             };
+
             try {
-                await fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) });
-                alert("🎉 ลงประกาศสำเร็จเรียบร้อยแล้ว!");
-                document.getElementById('listingForm').reset();
-                navigateTo('browse');
-            } catch(e) { alert("ล้มเหลว"); }
-            finally { btn.innerText = "ยืนยันส่งประกาศ"; btn.disabled = false; }
+                const response = await fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) });
+                const res = await response.json();
+                
+                if (res.error) {
+                    alert("❌ เกิดข้อผิดพลาดจากระบบหลังบ้าน: " + res.error);
+                } else if (res.success) {
+                    alert("🎉 ยินดีด้วยครับ! ระบบบันทึกประกาศของคุณเรียบร้อยแล้ว");
+                    document.getElementById('listingForm').reset();
+                    document.getElementById('imagePreviewContainer').innerHTML = '';
+                    uploadedBase64Images = [];
+                    adjustFormFields();
+                    navigateTo('browse');
+                }
+            } catch(e) { 
+                alert("❌ ระบบการเชื่อมต่อขัดข้อง กรุณาลองใหม่อีกครั้ง"); 
+            } finally { 
+                btn.innerText = "ยืนยันส่งประกาศ"; 
+                btn.disabled = false; 
+            }
         }
     </script>
 </body>
