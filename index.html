@@ -173,7 +173,7 @@
     </nav>
 
     <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbwh96Y5e9-9-QEu-0UM80zndigRVETlcPHDG7u6YQmYpdfNWziJ9V3L2-7KD1A_D3wVAQ/exec"; 
+        const API_URL = "https://script.google.com/macros/s/AKfycbyONx5W30SbIgwoiGNgr5XP-VvkPLpElGoQEPCb9XduvsvR9ptp42Wa1e2htnIiRuxGfA/exec"; 
 
         let userSession = JSON.parse(localStorage.getItem('khom_user')) || null;
         let currentCategory = 'Properties';
@@ -187,7 +187,7 @@
         window.onload = async function() {
             updateUserUI();
             fetchNews();
-            adjustFormFields(); // เรียกใช้ฟังก์ชันทันทีเพื่อให้ฟิลด์สร้างข้อมูลตั้งแต่เปิดหน้าจอ
+            adjustFormFields(); 
             setInterval(rotateNewsBanner, 20000);
 
             const urlParams = new URLSearchParams(window.location.search);
@@ -313,7 +313,11 @@
             container.classList.remove('hidden');
             container.innerHTML = '';
 
-            const activeItems = items.filter(i => i.Status === "Active");
+            // 🔥 แก้ไขระบบกรองเปิดกว้างขึ้น: ถ้าค่าว่าง หรือเป็น Active (ไม่ว่าจะพิมพ์เล็กพิมพ์ใหญ่) ให้ยอมรับทั้งหมด
+            const activeItems = items.filter(i => {
+                if (!i.Status || String(i.Status).trim() === "") return true; 
+                return String(i.Status).toLowerCase() === "active";
+            });
 
             if (activeItems.length === 0) {
                 container.innerHTML = `<div class="text-center py-14 text-slate-500 text-lg font-bold bg-white rounded-2xl border-2 border-dashed border-purple-200">📭 ยังไม่มีรายการประกาศ</div>`;
@@ -493,7 +497,6 @@
             displayCards(filtered);
         }
 
-        // ปรับปรุงการเจนเนอเรตฟอร์มให้มีฟิลด์ครบครันตั้งแต่เปิดหน้าจอ
         function adjustFormFields() {
             const tab = document.getElementById('formTab').value;
             let extraSelect = '';
@@ -538,7 +541,6 @@
             `;
         }
 
-        // ระบบบีบอัดรูปภาพอัตโนมัติก่อนส่งหลังบ้าน ป้องกันระบบค้าง 100%
         function previewImages() {
             const files = document.getElementById('formImages').files;
             const container = document.getElementById('imagePreviewContainer');
@@ -554,7 +556,6 @@
                         const canvas = document.createElement('canvas');
                         const ctx = canvas.getContext('2d');
                         
-                        // บีบขนาดสูงสุดให้ไม่เกิน 1024px ป้องกันโหลดช้า
                         let width = img.width;
                         let height = img.height;
                         const max_size = 1024;
@@ -569,7 +570,6 @@
                         canvas.height = height;
                         ctx.drawImage(img, 0, 0, width, height);
                         
-                        // บีบอัดคุณภาพรูปเหลือ 70% (ภาพยังชัดแจ๋ว แต่ขนาดไฟล์เล็กลง 10 เท่าตัว)
                         const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
                         uploadedBase64Images.push({ base64: compressedBase64 });
 
