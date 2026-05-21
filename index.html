@@ -233,8 +233,7 @@
 
 
     <script>
-        // ใส่ลิงก์ Web App URL ที่ได้จากการกด Deploy ใน Apps Script ของคุณที่นี่
-        const API_URL = "https://script.google.com/macros/s/AKfycbyF7Lywy-nZQqI1V-8_m9vcI_MjFRxm8ktn4_oTw1vhl8GhTcTueUCd55s6GMCgTlpJ-g/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbzvWXmfib8AKU_CY2w-1-dQ-cT9IEfjWxVpZOvItu5C5_cKfft45zOXx5Uc1Mf8S5Lo0Q/exec";
 
 
         let currentCategory = 'Properties';
@@ -244,7 +243,7 @@
         let userSession = JSON.parse(localStorage.getItem('khom_user')) || null;
         let authMode = 'login';
         let pendingView = null;
-        let uploadedBase64Images = [];
+        let uploadedBase64Images = []; // เก็บ Array ของรูปภาพแบบ Base64 ก่อนส่งไปแปลงในเซิร์ฟเวอร์
         let editingItem = null;
         
         let currentModalImages = [];
@@ -519,7 +518,8 @@
             let lineLink = item.Contact_Line ? (item.Contact_Line.startsWith('http') ? item.Contact_Line : `https://line.me/ti/p/~${item.Contact_Line}`) : '#';
             
             let ownerControls = '';
-            if (userSession && (userSession.id === item.Owner_Id || userSession.isAdmin)) {
+            // ฟีเจอร์ที่ 2: ตรวจสอบความถูกต้องของสิทธิ์การเป็นเจ้าของประกาศผ่าน Username และ ID ล็อกอินที่ถูกต้องแม่นยำ
+            if (userSession && (userSession.name === item.Owner_Name || userSession.id === item.Owner_Id || userSession.isAdmin)) {
                 ownerControls = `
                     <button onclick="editPropertyMode('${item.tab || currentCategory}', '${item.Timestamp}')" class="col-span-1 bg-amber-500 text-white font-bold py-2.5 rounded-xl text-base shadow-md">✏️ แก้ไข</button>
                     <button onclick="deletePropertyPrompt('${item.tab || currentCategory}', '${item.Timestamp}')" class="col-span-1 bg-red-600 text-white font-bold py-2.5 rounded-xl text-base shadow-md">🗑️ ลบ</button>
@@ -547,7 +547,6 @@
         }
 
 
-        // ฟังก์ชันควบคุมสไลด์ Lightbox รูปภาพแบบเต็มจอ
         function openLightbox() {
             if(!currentModalImages || currentModalImages.length === 0) return;
             document.getElementById('lightboxModal').classList.remove('hidden');
@@ -571,7 +570,6 @@
         }
 
 
-        // ฟังก์ชันระบบบริการแชทภายในแอปพลิเคชัน
         async function loadChatBox(postId) {
             currentPostIdForChat = postId;
             const container = document.getElementById('chatMessagesContainer');
@@ -711,9 +709,10 @@
             if(!userSession) return alert("กรุณาเข้าสู่ระบบก่อนทำรายการ");
             
             const btn = document.getElementById('submitBtn');
-            btn.disabled = true; btn.innerText = "กำลังอัปโหลดส่งประกาศ...";
+            btn.disabled = true; btn.innerText = "กำลังส่งรูปไปบันทึกบน Google Drive...";
 
 
+            // ฟีเจอร์ที่ 1: ส่งอาร์เรย์รูปภาพแยกเป็นโครงสร้างวัตถุ ไม่รวมสายอักษรยาวเกินพิกัดชีต
             const payload = {
                 action: editingItem ? "editProperty" : "addProperty",
                 tab: document.getElementById('formTab').value,
@@ -725,7 +724,7 @@
                 details: document.getElementById('formDetails').value,
                 contactLine: document.getElementById('formLine').value,
                 contactTel: document.getElementById('formTel').value,
-                image: uploadedBase64Images.join(','),
+                imagesArray: uploadedBase64Images, // ส่งแบบ Array สดๆ ไปให้ฝั่งหลังบ้านอัปโหลดลง Drive
                 ownerId: userSession.id,
                 ownerName: userSession.name,
                 timestamp: editingItem ? editingItem.Timestamp : null
@@ -739,7 +738,7 @@
                 cancelEditMode();
                 navigateTo('browse');
             } catch(e) {
-                alert("เกิดปัญหาข้อผิดพลาดระบบ");
+                alert("เกิดปัญหาข้อผิดพลาดระบบการส่งเอกสาร");
             } finally {
                 btn.disabled = false; btn.innerText = "ยืนยันส่งประกาศ";
             }
@@ -797,8 +796,8 @@
         function renderMyPosts() {
             const container = document.getElementById('myCardsContainer');
             if(!userSession) return;
-            const myItems = allDataCache.filter(x => String(x.Owner_Id) === String(userSession.id));
-            container.innerHTML = myItems.length === 0 ? '<p class="text-center text-slate-400 py-4 text-sm">📭 ไม่มีรายการประกาศในแท็บนี้</p>' : '';
+            const myItems = allDataCache.filter(x => String(x.Owner_Name) === String(userSession.name) || String(x.Owner_Id) === String(userSession.id));
+            container.innerHTML = myItems.length === 0 ? '<p class="text-center text-slate-400 py-4 text-sm">📭 ไม่มีรายการประกาศของคุณในหมวดหมู่นี้</p>' : '';
             myItems.forEach(item => {
                 const d = document.createElement('div');
                 d.className = "bg-white p-4 rounded-xl border flex justify-between items-center shadow-sm";
@@ -845,7 +844,8 @@
             const p = document.getElementById('authPassword').value.trim();
             if(!u || !p) return alert("กรุณากรอกข้อมูลให้ครบ");
             if(authMode === 'login') {
-                userSession = { id: 'usr_' + new Date().getTime(), name: u, isAdmin: u.toLowerCase() === 'admin' };
+                // สร้าง ID แบบผูกสิทธิ์ตามชื่อสมาชิกเพื่อป้องกันรหัสรีเซ็ตตัวใหม่เมื่อเปิดแอปใหม่
+                userSession = { id: 'usr_' + u, name: u, isAdmin: u.toLowerCase() === 'admin' };
                 localStorage.setItem('khom_user', JSON.stringify(userSession));
                 alert(`ยินดีต้อนรับกลับมาครับคุณ ${u}! 🎉`);
             } else {
