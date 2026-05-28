@@ -513,10 +513,15 @@
                 imgContainer.innerHTML = '<div class="text-slate-400 font-bold text-sm">ไม่มีรูปภาพประกอบ</div>';
             }
 
-			let contactLinkHtml = '';
-            if (item.Contact_Link) {
-                contactLinkHtml = `<a href="${item.Contact_Link}" target="_blank" class="col-span-2 bg-blue-50 hover:bg-blue-100 text-blue-700 text-sm font-bold py-2.5 rounded-xl text-center flex items-center justify-center gap-1 border border-blue-200 transition-all">🌐 ลิงก์รายละเอียดเพิ่มเติมภายนอก</a>`;
-            }
+			// ตรวจสอบเงื่อนไขการสร้างปุ่มลิงก์ URL ภายนอกตามเงื่อนไขข้อที่ 2
+            let externalLinkBtnHtml = '';
+            if (item.Contact_Link && item.Contact_Link.trim() !== '') {
+                externalLinkBtnHtml = `
+                    <a href="${item.Contact_Link}" target="_blank" class="col-span-2 bg-blue-600 hover:bg-blue-700 text-white text-base font-bold py-3 rounded-xl text-center flex items-center justify-center gap-1 shadow-md transition-all">
+                        🌐 เปิดลิงก์เว็บไซต์รายละเอียดเพิ่มเติม
+                    </a>`;
+            imgContainer.innerHTML = '';
+			}
 
             const actions = document.getElementById('actionButtons');
             let lineLink = item.Contact_Line ? (item.Contact_Line.startsWith('http') ? item.Contact_Line : `https://line.me/ti/p/~${item.Contact_Line}`) : '#';
