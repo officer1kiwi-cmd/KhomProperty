@@ -525,7 +525,10 @@
 
             const actions = document.getElementById('actionButtons');
             let lineLink = item.Contact_Line ? (item.Contact_Line.startsWith('http') ? item.Contact_Line : `https://line.me/ti/p/~${item.Contact_Line}`) : '#';
-            
+            let contactLinkHtml = '';
+            if (item.Contact_Link) {
+                contactLinkHtml = `<a href="${item.Contact_Link}" target="_blank" class="col-span-2 bg-blue-50 hover:bg-blue-100 text-blue-700 text-sm font-bold py-2.5 rounded-xl text-center flex items-center justify-center gap-1 border border-blue-200 transition-all">🌐 ลิงก์รายละเอียดเพิ่มเติมภายนอก</a>`;
+            }
             let ownerControls = '';
             // ฟีเจอร์ที่ 2: ตรวจสอบความถูกต้องของสิทธิ์การเป็นเจ้าของประกาศผ่าน Username และ ID ล็อกอินที่ถูกต้องแม่นยำ
             if (userSession && (userSession.name === item.Owner_Name || userSession.id === item.Owner_Id || userSession.isAdmin)) {
@@ -537,6 +540,7 @@
 
 
             actions.innerHTML = `
+			
                 <a href="${lineLink}" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white text-base font-bold py-3 rounded-xl text-center flex items-center justify-center gap-1 shadow-md">💬 ทักไลน์</a>
                 <a href="tel:${item.Contact_Tel}" class="bg-premium-primary hover:bg-purple-800 text-white text-base font-bold py-3 rounded-xl text-center flex items-center justify-center gap-1 shadow-md">📞 โทรติดต่อ</a>
                 <button onclick="sharePost('${item.tab || currentCategory}', '${item.rowId}', '${item.Title.replace(/'/g, "\\'")}')" class="col-span-2 bg-purple-100 text-premium-primary font-bold py-3 rounded-xl flex items-center justify-center gap-1 mt-1">🔗 แชร์ประกาศนี้</button>
