@@ -471,6 +471,7 @@
             document.getElementById('detailLocation').innerText = '📍 ทำเลที่ตั้ง: ' + (item.Location || '-');
             document.getElementById('detailPrice').innerText = '💰 ราคา: ' + item.Price + ' บาท';
             document.getElementById('detailText').innerText = item.Details || '';
+			document.getElementByID('detailText').innerText = item.Url || '';
             
             const badges = document.getElementById('detailBadges');
             badges.innerHTML = `
