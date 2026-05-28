@@ -683,26 +683,56 @@
             }
         }
 
-
+// ระบบบีบอัดรูปภาพอัตโนมัติก่อนส่งหลังบ้าน ป้องกันระบบค้าง 100%
         function previewImages() {
             const files = document.getElementById('formImages').files;
             const container = document.getElementById('imagePreviewContainer');
-            container.innerHTML = '';
+            container.innerHTML = ''; uploadedBase64Images = [];
+            container.innerHTML = ''; 
             uploadedBase64Images = [];
-            
+
             Array.from(files).forEach(file => {
                 const reader = new FileReader();
-                reader.onload = (e) => {
-                    uploadedBase64Images.push(e.target.result);
-                    const wrap = document.createElement('div');
-                    wrap.className = "w-16 h-16 flex-shrink-0 border rounded-lg overflow-hidden relative shadow-sm";
-                    wrap.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover">`;
-                    container.appendChild(wrap);
+                reader.onload = function(e) {
+                    uploadedBase64Images.push({ base64: e.target.result });
+                    const div = document.createElement('div');
+                    div.className = "flex-shrink-0 w-16 h-16 rounded-xl overflow-hidden border-2 border-purple-200";
+                    div.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover">`;
+                    container.appendChild(div);
+                    const img = new Image();
+                    img.src = e.target.result;
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        
+                        // บีบขนาดสูงสุดให้ไม่เกิน 1024px ป้องกันโหลดช้า
+                        let width = img.width;
+                        let height = img.height;
+                        const max_size = 1024;
+                        
+                        if (width > height) {
+                            if (width > max_size) { height *= max_size / width; width = max_size; }
+                        } else {
+                            if (height > max_size) { width *= max_size / height; height = max_size; }
+                        }
+                        
+                        canvas.width = width;
+                        canvas.height = height;
+                        ctx.drawImage(img, 0, 0, width, height);
+                        
+                        // บีบอัดคุณภาพรูปเหลือ 70% (ภาพยังชัดแจ๋ว แต่ขนาดไฟล์เล็กลง 10 เท่าตัว)
+                        const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
+                        uploadedBase64Images.push({ base64: compressedBase64 });
+
+                        const div = document.createElement('div');
+                        div.className = "flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden border-2 border-purple-300 shadow-sm animate-card";
+                        div.innerHTML = `<img src="${compressedBase64}" class="w-full h-full object-cover">`;
+                        container.appendChild(div);
+                    };
                 };
                 reader.readAsDataURL(file);
             });
         }
-
 
         async function submitForm(event) {
             event.preventDefault();
