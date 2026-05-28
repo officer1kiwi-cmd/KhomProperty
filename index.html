@@ -471,8 +471,7 @@
             document.getElementById('detailLocation').innerText = '📍 ทำเลที่ตั้ง: ' + (item.Location || '-');
             document.getElementById('detailPrice').innerText = '💰 ราคา: ' + item.Price + ' บาท';
             document.getElementById('detailText').innerText = item.Details || '';
-			document.getElementByID('detailText').innerText = item.Url || '';
-            
+	
             const badges = document.getElementById('detailBadges');
             badges.innerHTML = `
                 <span class="bg-purple-100 text-premium-primary text-xs font-bold px-2.5 py-1 rounded-md">${item.Property_Type}</span>
@@ -734,6 +733,7 @@
                 location: document.getElementById('formLocation').value,
                 price: document.getElementById('formPrice').value,
                 details: document.getElementById('formDetails').value,
+				contactUrl: document.getElementById('formUrl').value,
                 contactLine: document.getElementById('formLine').value,
                 contactTel: document.getElementById('formTel').value,
                 imagesArray: uploadedBase64Images, // ส่งแบบ Array สดๆ ไปให้ฝั่งหลังบ้านอัปโหลดลง Drive
