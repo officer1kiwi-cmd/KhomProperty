@@ -471,8 +471,7 @@
             document.getElementById('detailLocation').innerText = '📍 ทำเลที่ตั้ง: ' + (item.Location || '-');
             document.getElementById('detailPrice').innerText = '💰 ราคา: ' + item.Price + ' บาท';
             document.getElementById('detailText').innerText = item.Details || '';
-			document.getElementById('detailURL').innerText = item.Contact_Link || '-';
-	
+		
             const badges = document.getElementById('detailBadges');
             badges.innerHTML = `
                 <span class="bg-purple-100 text-premium-primary text-xs font-bold px-2.5 py-1 rounded-md">${item.Property_Type}</span>
@@ -513,7 +512,7 @@
             } else {
                 imgContainer.innerHTML = '<div class="text-slate-400 font-bold text-sm">ไม่มีรูปภาพประกอบ</div>';
             }
-
+			
 			// ตรวจสอบเงื่อนไขการสร้างปุ่มลิงก์ URL ภายนอกตามเงื่อนไขข้อที่ 2
             let externalLinkBtnHtml = '';
             if (item.Contact_Link && item.Contact_Link.trim() !== '') {
@@ -521,7 +520,7 @@
                     <a href="${item.Contact_Link}" target="_blank" class="col-span-2 bg-blue-600 hover:bg-blue-700 text-white text-base font-bold py-3 rounded-xl text-center flex items-center justify-center gap-1 shadow-md transition-all">
                         🌐 เปิดลิงก์เว็บไซต์รายละเอียดเพิ่มเติม
                     </a>`;
-            imgContainer.innerHTML = '';
+	        imgContainer.innerHTML = '';
 			}
 
             const actions = document.getElementById('actionButtons');
@@ -735,8 +734,7 @@
                 location: document.getElementById('formLocation').value,
                 price: document.getElementById('formPrice').value,
                 details: document.getElementById('formDetails').value,
-				contactUrl: document.getElementById('formUrl').value,
-                contactLine: document.getElementById('formLine').value,
+	            contactLine: document.getElementById('formLine').value,
                 contactTel: document.getElementById('formTel').value,
                 imagesArray: uploadedBase64Images, // ส่งแบบ Array สดๆ ไปให้ฝั่งหลังบ้านอัปโหลดลง Drive
                 ownerId: userSession.id,
@@ -776,8 +774,7 @@
             document.getElementById('formLocation').value = item.Location || '';
             document.getElementById('formPrice').value = item.Price || '';
             document.getElementById('formDetails').value = item.Details || '';
-			document.getElementById('formUrl').value = item.Contact_Link || '';
-            document.getElementById('formLine').value = item.Contact_Line || '';
+	        document.getElementById('formLine').value = item.Contact_Line || '';
             document.getElementById('formTel').value = item.Contact_Tel || '';
             
             document.getElementById('cancelEditBtn').classList.remove('hidden');
