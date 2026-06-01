@@ -104,7 +104,10 @@
                     <input type="file" id="formImages" multiple accept="image/*" onchange="previewImages()" class="w-full text-base text-slate-500 file:mr-3 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-purple-100 file:text-premium-primary file:font-bold">
                     <div id="imagePreviewContainer" class="flex gap-2 overflow-x-auto mt-2 scrollbar-hide"></div>
                 </div>
-                <div class="grid grid-cols-2 gap-3">
+                <div class="grid grid-cols-1 gap-3">
+					<input type="text" id="formLink" placeholder="ลิงก์เว็บไซต์เพิ่มเติม (ถ้ามี)" class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-3 py-3 text-base">
+				</div>
+				<div class="grid grid-cols-2 gap-3">
                     <input type="text" id="formLine" placeholder="Line ID ติดต่อ" required class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-3 py-3 text-base">
                     <input type="text" id="formTel" placeholder="เบอร์โทรติดต่อ" required class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-3 py-3 text-base">
                 </div>
@@ -112,7 +115,8 @@
                 <div class="flex gap-2">
                     <button type="submit" id="submitBtn" class="w-full bg-premium-primary text-white font-bold text-lg py-4 rounded-xl shadow-lg">ยืนยันส่งประกาศ</button>
                     <button type="button" id="cancelEditBtn" onclick="cancelEditMode()" class="hidden bg-slate-200 text-slate-700 font-bold px-4 rounded-xl">ยกเลิก</button>
-                </div>
+                
+				</div>
             </form>
         </div>
 
@@ -486,7 +490,7 @@
             const imgs = item.Images ? item.Images.split(',') : [];
             currentModalImages = imgs;
             activeImageIndex = 0;
-            imgContainer.innerHTML = '';
+			imgContainer.innerHTML = '';
             subContainer.innerHTML = '';
 
 
@@ -520,8 +524,7 @@
                     <a href="${item.Contact_Link}" target="_blank" class="col-span-2 bg-blue-600 hover:bg-blue-700 text-white text-base font-bold py-3 rounded-xl text-center flex items-center justify-center gap-1 shadow-md transition-all">
                         🌐 เปิดลิงก์เว็บไซต์รายละเอียดเพิ่มเติม
                     </a>`;
-	        imgContainer.innerHTML = '';
-			}
+	        }
 
             const actions = document.getElementById('actionButtons');
             let lineLink = item.Contact_Line ? (item.Contact_Line.startsWith('http') ? item.Contact_Line : `https://line.me/ti/p/~${item.Contact_Line}`) : '#';
@@ -720,6 +723,7 @@
             event.preventDefault();
             if(!userSession) return alert("กรุณาเข้าสู่ระบบก่อนทำรายการ");
             
+			const contactLink = document.getElementById('formLink').value;
             const btn = document.getElementById('submitBtn');
             btn.disabled = true; btn.innerText = "กำลังส่งรูปไปบันทึกบน Google Drive...";
 
@@ -734,6 +738,7 @@
                 location: document.getElementById('formLocation').value,
                 price: document.getElementById('formPrice').value,
                 details: document.getElementById('formDetails').value,
+				contactLink: contactLink,
 	            contactLine: document.getElementById('formLine').value,
                 contactTel: document.getElementById('formTel').value,
                 imagesArray: uploadedBase64Images, // ส่งแบบ Array สดๆ ไปให้ฝั่งหลังบ้านอัปโหลดลง Drive
@@ -755,7 +760,6 @@
                 btn.disabled = false; btn.innerText = "ยืนยันส่งประกาศ";
             }
         }
-
 
         function editPropertyMode(tabName, timestamp) {
             const item = allDataCache.find(x => String(x.Timestamp) === String(timestamp));
@@ -879,6 +883,7 @@
                 alert("บันทึกข่าวเรียบร้อย!"); closeNewsModal(); fetchNews();
             } catch(e) { alert("บันทึกล้มเหลว"); }
         }
+		
     </script>
 </body>
 </html>
