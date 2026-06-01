@@ -104,12 +104,11 @@
                     <input type="file" id="formImages" multiple accept="image/*" onchange="previewImages()" class="w-full text-base text-slate-500 file:mr-3 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-purple-100 file:text-premium-primary file:font-bold">
                     <div id="imagePreviewContainer" class="flex gap-2 overflow-x-auto mt-2 scrollbar-hide"></div>
                 </div>
-                <div class="grid grid-cols-1 gap-3">
-					<input type="text" id="formLink" placeholder="ลิงก์เว็บไซต์เพิ่มเติม (ถ้ามี)" class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-3 py-3 text-base">
-				</div>
+                
 				<div class="grid grid-cols-2 gap-3">
-                    <input type="text" id="formLine" placeholder="Line ID ติดต่อ" required class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-3 py-3 text-base">
+					<input type="text" id="formLine" placeholder="Line ID ติดต่อ" required class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-3 py-3 text-base">
                     <input type="text" id="formTel" placeholder="เบอร์โทรติดต่อ" required class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-3 py-3 text-base">
+					<input type="text" id="formLink" placeholder="ลิงก์เว็บไซต์เพิ่มเติม " class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-3 py-3 text-base">
                 </div>
                 
                 <div class="flex gap-2">
@@ -738,10 +737,10 @@
                 location: document.getElementById('formLocation').value,
                 price: document.getElementById('formPrice').value,
                 details: document.getElementById('formDetails').value,
-				contactLink: contactLink,
-	            contactLine: document.getElementById('formLine').value,
+				contactLine: document.getElementById('formLine').value,
                 contactTel: document.getElementById('formTel').value,
                 imagesArray: uploadedBase64Images, // ส่งแบบ Array สดๆ ไปให้ฝั่งหลังบ้านอัปโหลดลง Drive
+				contactLink: contactLink,
                 ownerId: userSession.id,
                 ownerName: userSession.name,
                 timestamp: editingItem ? editingItem.Timestamp : null
@@ -780,7 +779,7 @@
             document.getElementById('formDetails').value = item.Details || '';
 	        document.getElementById('formLine').value = item.Contact_Line || '';
             document.getElementById('formTel').value = item.Contact_Tel || '';
-            
+            document.getElementById('formUrl').value = item.Contact_Link || '';
             document.getElementById('cancelEditBtn').classList.remove('hidden');
             document.getElementById('submitBtn').innerText = "บันทึกการแก้ไขประกาศ";
         }
