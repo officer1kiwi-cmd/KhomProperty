@@ -739,9 +739,9 @@
                 details: document.getElementById('formDetails').value,
 				contactLine: document.getElementById('formLine').value,
                 contactTel: document.getElementById('formTel').value,
+				contactLink: document.getElementById('formLink').value,
                 imagesArray: uploadedBase64Images, // ส่งแบบ Array สดๆ ไปให้ฝั่งหลังบ้านอัปโหลดลง Drive
-				contactLink: contactLink,
-                ownerId: userSession.id,
+				ownerId: userSession.id,
                 ownerName: userSession.name,
                 timestamp: editingItem ? editingItem.Timestamp : null
             };
@@ -779,7 +779,7 @@
             document.getElementById('formDetails').value = item.Details || '';
 	        document.getElementById('formLine').value = item.Contact_Line || '';
             document.getElementById('formTel').value = item.Contact_Tel || '';
-            document.getElementById('formUrl').value = item.Contact_Link || '';
+            document.getElementById('formLink').value = item.Contact_Link || '';
             document.getElementById('cancelEditBtn').classList.remove('hidden');
             document.getElementById('submitBtn').innerText = "บันทึกการแก้ไขประกาศ";
         }
