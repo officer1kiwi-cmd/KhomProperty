@@ -436,7 +436,7 @@
                 card.className = "bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex gap-3 cursor-pointer hover:shadow-md transition-all animate-card";
                 card.onclick = () => openDetailModal(item);
                 
-                const imgs = item.Images ? item.Images.split(',') : [];
+                const imgs = item.Image ? item.Image.split(',') : [];
                 const imgHtml = imgs.length > 0 ? `<img src="${imgs[0]}" class="w-24 h-24 object-cover rounded-xl bg-slate-50 flex-shrink-0">` : `<div class="w-24 h-24 bg-slate-100 rounded-xl flex items-center justify-center text-slate-400 text-xs font-bold">ไม่มีรูปภาพ</div>`;
                 
                 let statusBadge = '';
@@ -486,7 +486,7 @@
 
             const imgContainer = document.getElementById('detailImages');
             const subContainer = document.getElementById('subImagesContainer');
-            const imgs = item.Images ? item.Images.split(',') : [];
+            const imgs = item.Image ? item.Image.split(',') : [];
             currentModalImages = imgs;
             activeImageIndex = 0;
 			imgContainer.innerHTML = '';
